@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Generic, TypeVar
 from pydantic import BaseModel
 
 from src.domain.post.entities import Post
@@ -8,9 +9,9 @@ class PostInSchema(BaseModel):
     title: str
     description: str
 
-    def to_entity(self) -> Post:
+    def to_entity(self, oid: str | None = None) -> Post:
         return Post(
-            oid=None,
+            oid=oid,
             title=self.title,
             description=self.description,
             created_at=None,
@@ -34,3 +35,9 @@ class PostOutSchema(BaseModel):
             created_at=post.created_at,
             updated_at=post.updated_at,
         )
+
+
+
+
+
+

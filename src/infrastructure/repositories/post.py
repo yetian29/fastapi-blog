@@ -86,9 +86,9 @@ class MongoPostRepository(IPostRepository):
         except:
             fail(PostNotFoundException())
         else:
-            PostDto.load(doc)
+            return PostDto.load(doc)
 
-    def _build_find_query(search: str | None = None):
+    def _build_find_query(self, search: str | None = None) -> dict:
         query = {}
         if search:
             search_query = {
@@ -115,7 +115,7 @@ class MongoPostRepository(IPostRepository):
             .skip(offset)
             .limit(limit)
         )
-        for doc in cursor:
+        async for doc in cursor:
             yield PostDto.load(doc)
 
     async def count_many(self, search: str | None = None) -> int:

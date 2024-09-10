@@ -40,10 +40,10 @@ class PostService(IPostService):
         offset: int,
         search: str | None = None,
     ) -> list[Post]:
-        dto_iter = await self.repository.find_many(
+        dto_iter = self.repository.find_many(
             sort_field, sort_order, limit, offset, search
         )
-        return [dto.to_entity() for dto in dto_iter]
+        return [dto.to_entity() async for dto in dto_iter]
 
     async def count_many(self, search: str | None = None) -> int:
         return await self.repository.count_many(search)

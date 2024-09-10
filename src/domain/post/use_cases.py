@@ -24,7 +24,7 @@ class UpdatePostUseCase:
     services: IPostService
 
     async def execute(self, command: UpdatePostCommand) -> Post:
-        return await self.services.create(post=command.post)
+        return await self.services.update(post=command.post)
 
 
 @dataclass
