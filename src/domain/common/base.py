@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -7,9 +6,8 @@ from datetime import datetime
 class BaseOid:
     oid: str | None
 
+
 @dataclass
 class BaseTime:
-    created_at: datetime | None 
-    updated_at: datetime | None 
-    
-    
+    created_at: datetime | None
+    updated_at: datetime | None

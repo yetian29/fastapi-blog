@@ -1,9 +1,6 @@
-
-
-
 from abc import ABC, abstractmethod
 
-from src.domain.post.entities import Post 
+from src.domain.post.entities import Post
 
 
 class IPostService(ABC):
@@ -30,13 +27,10 @@ class IPostService(ABC):
         sort_order: int,
         limit: int,
         offset: int,
-        search: str | None = None
+        search: str | None = None,
     ) -> list[Post]:
         pass
 
     @abstractmethod
-    async def count_many(
-        self,
-        search: str | None = None
-    ) -> int:
+    async def count_many(self, search: str | None = None) -> int:
         pass

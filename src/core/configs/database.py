@@ -1,5 +1,3 @@
-
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -9,7 +7,7 @@ class MongoSettings(BaseSettings):
     MONGO_USER: str
     MONGO_PASSWORD: str
     MONGO_PORT: str
-    
+
     @property
     def MONGO_URI(self):
         return f"mongodb://{self.MONGO_USER}:{self.MONGO_PASSWORD}@{self.MONGO_HOST}:{self.MONGO_PORT}/"
@@ -17,5 +15,6 @@ class MongoSettings(BaseSettings):
 
 class Settings(MongoSettings):
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
+
 
 settings = Settings()
