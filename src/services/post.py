@@ -19,13 +19,13 @@ class PostService(IPostService):
 
     async def create(self, post: Post) -> Post:
         dto = PostDto.from_entity(post)
-        await self.repository.create(dto)
-        return post
+        dto = await self.repository.create(dto)
+        return dto.to_entity()
 
     async def update(self, post: Post) -> Post:
         dto = PostDto.from_entity(post)
-        await self.repository.update(dto)
-        return post
+        dto = await self.repository.update(dto)
+        return dto.to_entity()
 
     async def delete(self, oid: str) -> Post:
         post = await self.get_by_id(oid)

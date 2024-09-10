@@ -23,11 +23,11 @@ class IPostRepository(ABC):
         return self.database.connection.get_collection(self.collection_name)
 
     @abstractmethod
-    async def create(self, post: PostDto) -> None:
+    async def create(self, post: PostDto) -> PostDto:
         pass
 
     @abstractmethod
-    async def update(self, post: PostDto) -> None:
+    async def update(self, post: PostDto) -> PostDto:
         pass
 
     @abstractmethod
@@ -55,19 +55,24 @@ class IPostRepository(ABC):
 
 
 class MongoPostRepository(IPostRepository):
-    async def create(self, post: PostDto) -> None:
+    async def create(self, post: PostDto) -> PostDto:
         try:
-            await self.collection.insert_one({"post": post.dump()})
+            await self.collection.insert_one(post.dump())
         except:
             fail(CreatePostNotSuccessException())
+        else:
+            return post
+            
 
-    async def update(self, post: PostDto) -> None:
+    async def update(self, post: PostDto) -> PostDto:
         try:
             await self.collection.find_one_and_update(
                 {"oid": post.oid}, {"$set": post.dump()}
             )
         except:
             fail(UpdatePostNotSuccessException())
+        else:
+            return post
 
     async def delete(self, oid: str) -> None:
         try:

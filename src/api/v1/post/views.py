@@ -18,4 +18,5 @@ async def create_post_views(
     use_case: CreatePostUseCase = container.resolve(CreatePostUseCase)
     command = CreatePostCommand(post=post_in.to_entity())
     post = await use_case.execute(command)
+    print(post)
     return ApiResponse(data=PostOutSchema.from_entity(post))
