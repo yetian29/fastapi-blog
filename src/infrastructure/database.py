@@ -1,6 +1,6 @@
 from  motor.motor_asyncio import AsyncIOMotorClient
 
-from src.core.configs import settings
+from src.core.configs.database import settings
 
 class Database:
     def __init__(self) -> None:

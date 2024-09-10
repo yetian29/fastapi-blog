@@ -1,8 +1,8 @@
 
 
 from abc import ABC, abstractmethod
-from dataclasses import asdict
-import datetime
+from dataclasses import asdict, dataclass
+from datetime import datetime
 from uuid import uuid4
 
 from src.domain.post.entities import Post 
@@ -16,13 +16,14 @@ class BaseDto(ABC):
     @abstractmethod
     def load(data: dict | None) -> "BaseDto":
         pass
-    
+
+@dataclass  
 class PostDto(BaseDto):
-    oid: str
+    oid: str | None
     title: str
     description: str
-    created_at: datetime
-    update_at: datetime
+    created_at: datetime | None
+    updated_at: datetime | None
     
     
     def __post_init__(self):
@@ -30,8 +31,8 @@ class PostDto(BaseDto):
             self.oid = str(uuid4())      
         if not self.created_at:
             self.created_at = datetime.now() 
-        if not self.update_at:
-            self.update_at = datetime.now()    
+        if not self.updated_at:
+            self.updated_at = datetime.now()    
                         
                
     @staticmethod
@@ -62,6 +63,6 @@ class PostDto(BaseDto):
             title=self.title,
             description=self.description,
             created_at=self.created_at,
-            updated_at=self.update_at
+            updated_at=self.updated_at
         )
         

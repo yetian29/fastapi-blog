@@ -10,11 +10,13 @@ class PostInSchema(BaseModel):
     title: str
     description: str
     
-    @property
     def to_entity(self) -> Post:
-        return Post(
+        return Post(        
+            oid=None,
             title=self.title,
-            description=self.description
+            description=self.description,
+            created_at=None,
+            updated_at=None
              )
         
 class PostOutSchema(BaseModel):

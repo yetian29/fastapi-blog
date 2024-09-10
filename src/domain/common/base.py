@@ -5,11 +5,11 @@ from datetime import datetime
 
 @dataclass
 class BaseOid:
-    oid: str | None = None
+    oid: str | None
 
 @dataclass
 class BaseTime:
-    created_at: datetime | None = None
-    updated_at: datetime | None =  None
+    created_at: datetime | None 
+    updated_at: datetime | None 
     
     
