@@ -12,7 +12,7 @@ WORKDIR /tmp
 COPY ./pyproject.toml ./poetry.lock* /tmp/
 
 # Export all dependencies (including dev) to requirements.txt
-RUN poetry export -f requirements.txt --output requirements.txt --without-hashes 
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes --with dev 
 
 
 # Stage 2: Development environment
@@ -31,6 +31,8 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 COPY ./src/ /app/src/
 COPY ./web.entrypoint.sh /app/web.entrypoint.sh
 COPY ./tests/ /app/tests/
+
+
 
 # Make the entrypoint script executable
 RUN chmod +x /app/web.entrypoint.sh
