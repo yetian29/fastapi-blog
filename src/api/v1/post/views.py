@@ -54,12 +54,12 @@ async def get_post_views(
     return ApiResponse(data=PostOutSchema.from_entity(post))
 
 def get_sort(
-    sort_field: PostSortFieldsEnum = PostSortFieldsEnum.oid,
+    sort_field: PostSortFieldsEnum = PostSortFieldsEnum.oid, # type: ignore
     sort_order: SortOrderEnum = SortOrderEnum.asc
 ) -> SortQuery:
     return SortQuery(
-        sort_field,
-        sort_order
+        sort_field=sort_field.value,
+        sort_order=sort_order
     )
 
 def get_pagination(

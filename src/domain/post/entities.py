@@ -10,6 +10,6 @@ class Post(BaseOid, BaseTime):
 
 
 PostSortFieldsEnum = Enum(
-    "PostSortFieldList",
+    "PostSortFieldsEnum",
     {field.name: field.name for field in fields(Post)}
 )
