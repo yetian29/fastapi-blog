@@ -1,13 +1,13 @@
 import pytest
-
 from src.domain.post.use_cases import CreatePostUseCase
 from tests.mocks.post.factories import CreatePostCommandFactory
+
+
 
 @pytest.fixture
 def mock_create_post_use_case(mock_test_container):
     return mock_test_container.resolve(CreatePostUseCase)
     
-
 
 async def test_create_post_use_case(mock_create_post_use_case):
     command = CreatePostCommandFactory.build()

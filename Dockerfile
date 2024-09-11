@@ -30,7 +30,6 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 # Copy the source code and entrypoint script into the container
 COPY ./src/ /app/src/
 COPY ./web.entrypoint.sh /app/web.entrypoint.sh
-COPY ./tests/ /app/tests/
 
 
 

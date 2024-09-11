@@ -14,6 +14,3 @@ up_app:
 
 down_app:
 	docker-compose -f ${APP_FILE} -f ${STORAGES_FILE} down
-
-test:
-	docker exec -it main-app pytest
