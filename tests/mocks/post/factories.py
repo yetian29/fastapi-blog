@@ -1,6 +1,6 @@
 from polyfactory.factories import DataclassFactory
 
-from src.domain.post.commands import CreatePostCommand, DeletePostCommand, GetPostCommand, UpdatePostCommand
+from src.domain.post.commands import CreatePostCommand, DeletePostCommand, GetPostCommand, GetPostListCommand, UpdatePostCommand
 from src.domain.post.entities import Post
 
 
@@ -19,3 +19,6 @@ class DeletePostCommandFactory(DataclassFactory[DeletePostCommand]):
 
 class GetPostCommandFactory(DataclassFactory[GetPostCommand]):
     __model__ = GetPostCommand
+
+class GetPostListCommandFactory(DataclassFactory[GetPostListCommand]):
+    __model__ = GetPostListCommand
