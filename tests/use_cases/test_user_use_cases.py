@@ -16,7 +16,7 @@ def mock_login_user_use_case(mock_test_container):
     return mock_test_container.resolve(LoginUserUseCase)
 
 
-async def test_authorize_user_use_case(mock_authorize_user_use_case):
+async def test_authorize_and_login_user_use_case(mock_authorize_user_use_case):
     command = AuthorizeUserCommandFactory.build()
     code = await mock_authorize_user_use_case.execute(command)
     assert isinstance(code, str)
