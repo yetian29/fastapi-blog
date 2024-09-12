@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 import pickle
 import random
@@ -13,7 +13,7 @@ from src.services.errors import CodeExpiredException, CodeNotFoundException, Cod
 
 
 
-class CacheCodeService(ICodeService):   
+class CacheCodeService(ICodeService):    
     async def generate_code(self, phone_number: str) -> str:
         caches = FastAPICache.get_backend()
         code = str(random.randint(100000, 999999))

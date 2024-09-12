@@ -14,14 +14,13 @@ from tests.mocks.user.factories import UserFactory
 @dataclass
 class DummyCodeService(ICodeService):
     caches: dict[str, dict] = field(default_factory=dict)
-    code_expire_time: timedelta = field(default=timedelta(minutes=1))
-
-    
+  
     async def generate_code(self, phone_number: str) -> str:
         code = str(random.randint(100000, 999999))
+        code_expire_time = timedelta(minutes=1)
         cached_data = {
             "code": code,
-            "expire_time": datetime.now() + self.code_expire_time
+            "expire_time": datetime.now() + code_expire_time
         }
         self.caches[phone_number] = cached_data
         return code
