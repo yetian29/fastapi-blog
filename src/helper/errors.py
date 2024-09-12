@@ -4,3 +4,7 @@ def fail(exc: Exception):
 
 class BaseDomainException(Exception):
     pass
+
+
+class BaseServiceException(Exception):
+    pass

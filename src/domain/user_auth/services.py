@@ -15,9 +15,9 @@ class ICodeService(ABC):
     async def validate_code(self, phone_number: str, code: str) -> None:
         pass
 
-class ISendSerivce(ABC):
+class ISendService(ABC):
     @abstractmethod
-    async def send_code(self, phone_number: str) -> None:
+    async def send_code(self, phone_number: str, code: str) -> None:
         pass        
  
 class ILoginService(ABC):
@@ -28,6 +28,10 @@ class ILoginService(ABC):
      
 class IUserService(ABC):
     @abstractmethod
-    async def get_or_create(self, user: User):
+    async def get_or_create(self, user: User) -> User:
+        pass
+    
+    @abstractmethod
+    async def get(self, phone_number: str) -> User:
         pass
     

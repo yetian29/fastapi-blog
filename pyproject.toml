@@ -12,6 +12,7 @@ uvicorn = "^0.30.6"
 motor = "^3.5.1"
 pydantic-settings = "^2.4.0"
 punq = "^0.7.0"
+fastapi-cache2 = {extras = ["redis"], version = "^0.2.2"}
 
 
 [tool.poetry.group.dev.dependencies]
