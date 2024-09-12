@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from src.domain.post.entities import Post
 from src.domain.post.errors import PostNotFoundException
 from src.domain.post.services import IPostService

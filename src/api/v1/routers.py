@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+
 from src.api.v1.post.views import router as post_router
 
 router = APIRouter()

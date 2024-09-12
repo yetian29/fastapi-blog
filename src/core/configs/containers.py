@@ -1,5 +1,7 @@
 from functools import lru_cache
+
 import punq
+
 from src.domain.post.services import IPostService
 from src.domain.post.use_cases import (
     CreatePostUseCase,

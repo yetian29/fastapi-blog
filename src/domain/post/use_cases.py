@@ -1,4 +1,6 @@
+import asyncio
 from dataclasses import dataclass
+
 from src.domain.post.commands import (
     CreatePostCommand,
     DeletePostCommand,
@@ -8,7 +10,6 @@ from src.domain.post.commands import (
 )
 from src.domain.post.entities import Post
 from src.domain.post.services import IPostService
-import asyncio
 
 
 @dataclass

@@ -1,5 +1,6 @@
 from dataclasses import dataclass, fields
 from enum import Enum
+
 from src.domain.common.base import BaseOid, BaseTime
 
 
@@ -10,6 +11,5 @@ class Post(BaseOid, BaseTime):
 
 
 PostSortFieldsEnum = Enum(
-    "PostSortFieldsEnum",
-    {field.name: field.name for field in fields(Post)}
+    "PostSortFieldsEnum", {field.name: field.name for field in fields(Post)}
 )

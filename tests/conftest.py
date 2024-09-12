@@ -1,5 +1,5 @@
-import pytest
 import punq
+import pytest
 
 from src.core.configs.containers import get_container
 from src.domain.post.services import IPostService

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Generic, TypeVar
+
 from pydantic import BaseModel
 
 from src.domain.post.entities import Post
@@ -35,9 +35,3 @@ class PostOutSchema(BaseModel):
             created_at=post.created_at,
             updated_at=post.updated_at,
         )
-
-
-
-
-
-

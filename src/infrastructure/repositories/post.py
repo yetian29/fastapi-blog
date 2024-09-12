@@ -62,7 +62,6 @@ class MongoPostRepository(IPostRepository):
             fail(CreatePostNotSuccessException())
         else:
             return post
-            
 
     async def update(self, post: PostDto) -> PostDto:
         try:
