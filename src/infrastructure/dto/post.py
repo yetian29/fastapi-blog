@@ -1,19 +1,10 @@
-from abc import ABC, abstractmethod
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import datetime
 from uuid import uuid4
-
 from src.domain.post.entities import Post
+from src.infrastructure.dto.base import BaseDto
 
 
-class BaseDto(ABC):
-    def dump(self):
-        return asdict(self)
-
-    @staticmethod
-    @abstractmethod
-    def load(data: dict | None) -> "BaseDto":
-        pass
 
 
 @dataclass
