@@ -20,10 +20,10 @@ class DummyPostService(IPostService):
         return post
     
     async def delete(self, oid: str) -> Post:
-        return PostFactory.build(oid)
+        return PostFactory.build(oid=oid)
     
     async def get_by_id(self, oid: str) -> Post:
-        return PostFactory.build(oid)
+        return PostFactory.build(oid=oid)
     
     async def find_many(
         self, sort_field: str, 
