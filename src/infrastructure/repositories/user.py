@@ -29,7 +29,7 @@ class IUserRepository(ABC):
     @abstractmethod
     async def create(self, user: UserDto) -> UserDto:
         pass
-    
+
     @abstractmethod
     async def update(self, user: UserDto) -> UserDto:
         pass
@@ -62,13 +62,13 @@ class MongoUserRepository(IUserRepository):
             updated_user = await self.collection.find_one_and_update(
                 {"oid": user.oid},
                 {"$set": user.dump()},
-                return_document=ReturnDocument.AFTER
+                return_document=ReturnDocument.AFTER,
             )
         except:
             fail(UpdateUserNotSuccessException())
         else:
             return UserDto.load(updated_user)
-        
+
     async def get_or_create(self, user: UserDto) -> UserDto:
         dto = await self.get(phone_number=user.phone_number)
         return dto or await self.create(user)

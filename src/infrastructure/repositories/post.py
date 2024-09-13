@@ -69,10 +69,9 @@ class MongoPostRepository(IPostRepository):
     async def update(self, post: PostDto) -> PostDto:
         try:
             updated_post = await self.collection.find_one_and_update(
-                {"oid": post.oid}, 
-                {"$set": post.dump()}, 
-                return_document=ReturnDocument.AFTER
-
+                {"oid": post.oid},
+                {"$set": post.dump()},
+                return_document=ReturnDocument.AFTER,
             )
         except:
             fail(UpdatePostNotSuccessException())

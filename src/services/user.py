@@ -77,9 +77,8 @@ class UserService(IUserService):
     async def get(self, phone_number: str) -> User:
         dto = await self.repository.get(phone_number)
         return dto.to_entity()
-    
+
     async def update(self, user: User) -> User:
         dto = UserDto.from_entity(user)
         dto = await self.repository.update(dto)
         return dto.to_entity()
-        

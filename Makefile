@@ -12,12 +12,10 @@ format:
 	poetry run ruff format .
 
 up_app:
-	docker-compose --env-file .env -f ${APP_FILE} -f ${STORAGES_FILE} up --build
+	docker-compose --env-file .env -f ${APP_FILE} -f ${STORAGES_FILE} -f ${REDIS_FILE} up --build
 
 down_app:
 	docker-compose -f ${APP_FILE} -f ${STORAGES_FILE} down
 
-redis:
-	docker-compose -f ${REDIS_FILE} up -d
 
-all: lint format up_app redis
+all: lint format up_app 

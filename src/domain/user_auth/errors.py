@@ -12,5 +12,6 @@ class UserNotFoundException(BaseUserException):
 class CreateUserNotSuccessException(BaseUserException):
     pass
 
+
 class UpdateUserNotSuccessException(BaseUserException):
     pass
