@@ -9,6 +9,6 @@ from redis import asyncio as aioredis
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
-    redis = aioredis.from_url("redis://redis")
+    redis = aioredis.from_url("redis://redis", encoding="utf-8", decode_responses=True)
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
     yield
