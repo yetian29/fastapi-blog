@@ -1,5 +1,7 @@
 APP_FILE=docker-compose/app.yaml
 STORAGES_FILE=docker-compose/storages.yaml
+REDIS_FILE=docker-compose/redis.yaml
+
 
 .PHONY:
 
@@ -14,3 +16,8 @@ up_app:
 
 down_app:
 	docker-compose -f ${APP_FILE} -f ${STORAGES_FILE} down
+
+redis:
+	docker-compose -f ${REDIS_FILE} up -d
+
+all: lint format up_app redis

@@ -29,27 +29,28 @@ class CacheCodeService(ICodeService):
         code = str(random.randint(100000, 999999))
         code_expire_time = timedelta(minutes=1)
         cached_data = {"code": code, "expire_time": datetime.now() + code_expire_time}
-        cached_data = pickle.dumps(cached_data)
-        caches.set(phone_number, cached_data)
+        data_bytes = pickle.dumps(cached_data)
+        await caches.set(phone_number, data_bytes)
         return code
 
     async def validate_code(self, phone_number: str, code: str) -> None:
         caches = FastAPICache.get_backend()
-        data = caches.get(phone_number)
-        cached_data = pickle.loads(data)
-        
-        if not cached_data:
+        data = await caches.get(phone_number)
+
+        if not data:
             fail(CodeNotFoundException())
+
+        cached_data = pickle.loads(data)
 
         if datetime.now() > cached_data.get("expire_time"):
             fail(CodeExpiredException())
-            caches.clear(phone_number)
+            await caches.clear(phone_number)
 
         if code != cached_data.get("code"):
             fail(CodesNotEqualException())
-            caches.clear(phone_number)
+            await caches.clear(phone_number)
 
-        caches.clear(phone_number)
+        await caches.clear(phone_number)
 
 
 class SMSSendService(ISendService):
