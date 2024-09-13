@@ -33,4 +33,6 @@ class LoginUserUseCase:
         await self.code_service.validate_code(
             phone_number=user.phone_number, code=command.code
         )
-        return await self.login_service.activate_and_generate_token(user)
+        token = await self.login_service.activate_and_generate_token(user)
+        await self.user_service.update(user)
+        return token

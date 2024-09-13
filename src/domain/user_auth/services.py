@@ -33,3 +33,7 @@ class IUserService(ABC):
     @abstractmethod
     async def get(self, phone_number: str) -> User:
         pass
+
+    @abstractmethod
+    async def update(self, user: User) -> User:
+        pass

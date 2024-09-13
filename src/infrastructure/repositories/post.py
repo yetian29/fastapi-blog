@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import AsyncIterable
 
+from pymongo import ReturnDocument
+
 from src.domain.post.errors import (
     CreatePostNotSuccessException,
     DeletePostNotSuccessException,
@@ -57,21 +59,25 @@ class IPostRepository(ABC):
 class MongoPostRepository(IPostRepository):
     async def create(self, post: PostDto) -> PostDto:
         try:
-            await self.collection.insert_one(post.dump())
+            new_post = await self.collection.insert_one(post.dump())
         except:
             fail(CreatePostNotSuccessException())
         else:
-            return post
+            created_post = await self.collection.find_one({"_id": new_post.inserted_id})
+            return PostDto.load(created_post)
 
     async def update(self, post: PostDto) -> PostDto:
         try:
-            await self.collection.find_one_and_update(
-                {"oid": post.oid}, {"$set": post.dump()}
+            updated_post = await self.collection.find_one_and_update(
+                {"oid": post.oid}, 
+                {"$set": post.dump()}, 
+                return_document=ReturnDocument.AFTER
+
             )
         except:
             fail(UpdatePostNotSuccessException())
         else:
-            return post
+            return PostDto.load(updated_post)
 
     async def delete(self, oid: str) -> None:
         try:

@@ -1,8 +1,11 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
+from pymongo import ReturnDocument
+
 from src.domain.user_auth.errors import (
     CreateUserNotSuccessException,
+    UpdateUserNotSuccessException,
     UserNotFoundException,
 )
 from src.helper.errors import fail
@@ -26,6 +29,10 @@ class IUserRepository(ABC):
     @abstractmethod
     async def create(self, user: UserDto) -> UserDto:
         pass
+    
+    @abstractmethod
+    async def update(self, user: UserDto) -> UserDto:
+        pass
 
     @abstractmethod
     async def get_or_create(self, user: UserDto) -> UserDto:
@@ -43,12 +50,25 @@ class MongoUserRepository(IUserRepository):
 
     async def create(self, user: UserDto) -> UserDto:
         try:
-            await self.collection.insert_one(user.dump())
+            new_user = await self.collection.insert_one(user.dump())
         except:
             fail(CreateUserNotSuccessException())
         else:
-            return user
+            created_user = await self.collection.find_one({"_id": new_user.inserted_id})
+            return UserDto.load(created_user)
 
+    async def update(self, user: UserDto) -> UserDto:
+        try:
+            updated_user = await self.collection.find_one_and_update(
+                {"oid": user.oid},
+                {"$set": user.dump()},
+                return_document=ReturnDocument.AFTER
+            )
+        except:
+            fail(UpdateUserNotSuccessException())
+        else:
+            return UserDto.load(updated_user)
+        
     async def get_or_create(self, user: UserDto) -> UserDto:
         dto = await self.get(phone_number=user.phone_number)
         return dto or await self.create(user)
