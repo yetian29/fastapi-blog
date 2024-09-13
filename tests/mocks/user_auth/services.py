@@ -16,7 +16,7 @@ from src.services.errors import (
     CodeNotFoundException,
     CodesNotEqualException,
 )
-from tests.mocks.user.factories import UserFactory
+from tests.mocks.user_auth.factories import UserFactory
 
 
 @dataclass

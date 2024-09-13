@@ -10,7 +10,7 @@ from src.domain.user_auth.services import (
     IUserService,
 )
 from tests.mocks.post.services import DummyPostService
-from tests.mocks.user.services import (
+from tests.mocks.user_auth.services import (
     DummyCodeService,
     DummyLoginService,
     DummySendService,

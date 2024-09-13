@@ -3,7 +3,7 @@ from uuid import UUID
 import pytest
 
 from src.domain.user_auth.use_cases import AuthorizeUserUseCase, LoginUserUseCase
-from tests.mocks.user.factories import (
+from tests.mocks.user_auth.factories import (
     AuthorizeUserCommandFactory,
     LoginUserCommandFactory,
 )
