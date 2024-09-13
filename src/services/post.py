@@ -11,7 +11,7 @@ class PostService(IPostService):
     repository: IPostRepository
 
     async def get_by_id(self, oid: str) -> Post:
-        dto = await self.repository.get_by_id(oid) 
+        dto = await self.repository.get_by_id(oid)
         return dto.to_entity()
 
     async def create(self, post: Post) -> Post:

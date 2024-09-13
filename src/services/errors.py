@@ -1,4 +1,3 @@
-
 from src.helper.errors import BaseServiceException
 
 
@@ -9,8 +8,10 @@ class BaseCodeException(BaseServiceException):
 class CodeNotFoundException(BaseCodeException):
     pass
 
+
 class CodesNotEqualException(BaseCodeException):
     pass
+
 
 class CodeExpiredException(BaseCodeException):
     pass

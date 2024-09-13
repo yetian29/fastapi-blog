@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 from datetime import datetime
 from uuid import uuid4
+
 from src.domain.post.entities import Post
 from src.infrastructure.dto.base import BaseDto
-
-
 
 
 @dataclass
