@@ -10,6 +10,8 @@ from src.domain.post.use_cases import (
     GetPostUseCase,
     UpdatePostUseCase,
 )
+from src.domain.review.services import IReviewService
+from src.domain.review.use_cases import CreateReviewUseCase, DeleteReviewUseCase, UpdateReviewUseCase
 from src.domain.user_auth.services import (
     ICodeService,
     ILoginService,
@@ -19,9 +21,11 @@ from src.domain.user_auth.services import (
 from src.domain.user_auth.use_cases import AuthorizeUserUseCase, LoginUserUseCase
 from src.infrastructure.database import Database
 from src.infrastructure.repositories.post import IPostRepository, MongoPostRepository
-from src.infrastructure.repositories.user import IUserRepository, MongoUserRepository
+from src.infrastructure.repositories.review import IReviewRepository, MongoReviewRepository
+from src.infrastructure.repositories.user_auth import IUserRepository, MongoUserRepository
 from src.services.post import PostService
-from src.services.user import (
+from src.services.review import ReviewService
+from src.services.user_auth import (
     CacheCodeService,
     LoginService,
     SMSSendService,
@@ -59,5 +63,13 @@ def init_container() -> punq.Container:
 
     container.register(AuthorizeUserUseCase)
     container.register(LoginUserUseCase)
+
+    # review
+    container.register(IReviewRepository, MongoReviewRepository)
+    container.register(IReviewService, ReviewService)
+    
+    container.register(CreateReviewUseCase)
+    container.register(UpdateReviewUseCase)
+    container.register(DeleteReviewUseCase)
 
     return container

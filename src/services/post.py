@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 
 from src.domain.post.entities import Post
+from src.domain.post.errors import CreatePostNotSuccessException, PostNotFoundException, UpdatePostNotSuccessException
 from src.domain.post.services import IPostService
+from src.helper.errors import fail
 from src.infrastructure.dto.post import PostDto
 from src.infrastructure.repositories.post import IPostRepository
 
@@ -12,6 +14,8 @@ class PostService(IPostService):
 
     async def get_by_id(self, oid: str) -> Post:
         dto = await self.repository.get_by_id(oid)
+        if not dto:
+            fail(PostNotFoundException())
         return dto.to_entity()
 
     async def create(self, post: Post) -> Post:

@@ -10,7 +10,7 @@ from src.domain.user_auth.errors import (
 )
 from src.helper.errors import fail
 from src.infrastructure.database import Database
-from src.infrastructure.dto.user import UserDto
+from src.infrastructure.dto.user_auth import UserDto
 
 
 @dataclass

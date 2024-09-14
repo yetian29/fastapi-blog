@@ -65,3 +65,6 @@ class DummyUserService(IUserService):
 
     async def get_or_create(self, user: User) -> User:
         return user
+    
+    async def update(self, user: User) -> User:
+        return user
