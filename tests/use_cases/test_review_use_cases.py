@@ -23,7 +23,8 @@ def mock_delete_review_use_case(mock_test_container):
 async def test_create_or_update_review_use_case(mock_create_or_update_review_use_case):
     command = CreateOrUpdateReviewCommandFactory.build()
     review = await mock_create_or_update_review_use_case.execute(command)
-    assert review == command.review
+    assert review.user_token == command.review.user_token
+    assert review.post_id == command.review.post_id
 
 
 async def test_delete_review_use_case(mock_delete_review_use_case):

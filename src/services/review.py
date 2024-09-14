@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 
 from src.domain.review.entities import Review
 from src.domain.review.errors import ReviewNotFoundException
@@ -21,7 +22,9 @@ class ReviewService(IReviewService):
     async def get_by_user_token_and_post_id(
         self, user_token: str, post_id: str
     ) -> Review:
-        dto = await self.repository.get_by_user_token_and_post_id(user_token=user_token, post_id=post_id)
+        dto = await self.repository.get_by_user_token_and_post_id(
+            user_token=user_token, post_id=post_id
+        )
         if not dto:
             return None
         return dto.to_entity()
@@ -43,8 +46,9 @@ class ReviewService(IReviewService):
         if existing_review:
             existing_review.rating = review.rating
             existing_review.content = review.content
+            existing_review.updated_at = datetime.now()
             return await self.update(existing_review)
-        
+
         return await self.create(review)
 
     async def delete(self, oid: str) -> Review:
