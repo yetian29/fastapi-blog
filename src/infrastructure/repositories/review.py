@@ -1,23 +1,27 @@
-
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 from pymongo import ReturnDocument
 
-from src.domain.review.errors import CreateReviewNotSuccessException, ReviewNotFoundException, UpdateReviewNotSuccessException
+from src.domain.review.errors import (
+    CreateReviewNotSuccessException,
+    ReviewNotFoundException,
+    UpdateReviewNotSuccessException,
+)
 from src.helper.errors import fail
 from src.infrastructure.database import Database
 from src.infrastructure.dto.review import ReviewDto
+
 
 @dataclass
 class IReviewRepository(ABC):
     database: Database
     collection_name: str = "reviews"
-    
+
     @property
     def collection(self):
         return self.database.connection.get_collection(self.collection_name)
-    
+
     @abstractmethod
     async def create(self, review: ReviewDto) -> ReviewDto:
         pass
@@ -29,11 +33,12 @@ class IReviewRepository(ABC):
     @abstractmethod
     async def delete(self, oid: str) -> None:
         pass
-    
+
     @abstractmethod
     async def get_by_id(self, oid: str) -> ReviewDto:
         pass
-  
+
+
 class MongoReviewRepository(IReviewRepository):
     async def create(self, review: ReviewDto) -> ReviewDto:
         try:
@@ -41,7 +46,9 @@ class MongoReviewRepository(IReviewRepository):
         except:
             fail(CreateReviewNotSuccessException())
         else:
-            created_review = await self.collection.find_one({"_id": new_review.inserted_id})
+            created_review = await self.collection.find_one(
+                {"_id": new_review.inserted_id}
+            )
             return ReviewDto.load(created_review)
 
     async def update(self, review: ReviewDto) -> ReviewDto:
@@ -54,12 +61,11 @@ class MongoReviewRepository(IReviewRepository):
         except:
             fail(UpdateReviewNotSuccessException())
         else:
-            return ReviewDto.load(updated_review)        
+            return ReviewDto.load(updated_review)
 
     async def delete(self, oid: str) -> None:
         await self.collection.delete_one({"oid": oid})
-        
-        
+
     async def get_by_id(self, oid: str) -> ReviewDto:
         try:
             doc = await self.collection.find_one({"oid": oid})

@@ -34,7 +34,5 @@ def mock_test_container() -> punq.Container:
 
     # review
     container.register(IReviewService, DummyReviewService)
-    
-    
 
     return container

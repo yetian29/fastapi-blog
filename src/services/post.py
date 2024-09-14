@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 
 from src.domain.post.entities import Post
-from src.domain.post.errors import CreatePostNotSuccessException, PostNotFoundException, UpdatePostNotSuccessException
+from src.domain.post.errors import (
+    PostNotFoundException,
+)
 from src.domain.post.services import IPostService
 from src.helper.errors import fail
 from src.infrastructure.dto.post import PostDto

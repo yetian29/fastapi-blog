@@ -1,8 +1,7 @@
-
-
-
 from dataclasses import dataclass
+
 from src.domain.review.entities import Review
+
 
 @dataclass
 class CreateReviewCommand:
