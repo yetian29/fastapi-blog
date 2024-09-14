@@ -12,9 +12,8 @@ from src.domain.post.use_cases import (
 )
 from src.domain.review.services import IReviewService
 from src.domain.review.use_cases import (
-    CreateReviewUseCase,
+    CreateOrUpdateReviewUseCase,
     DeleteReviewUseCase,
-    UpdateReviewUseCase,
 )
 from src.domain.user_auth.services import (
     ICodeService,
@@ -78,8 +77,7 @@ def init_container() -> punq.Container:
     container.register(IReviewRepository, MongoReviewRepository)
     container.register(IReviewService, ReviewService)
 
-    container.register(CreateReviewUseCase)
-    container.register(UpdateReviewUseCase)
+    container.register(CreateOrUpdateReviewUseCase)
     container.register(DeleteReviewUseCase)
 
     return container

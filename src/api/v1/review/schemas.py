@@ -8,11 +8,11 @@ from src.domain.review.entities import Review
 class ReviewInSchema(BaseModel):
     content: str
     rating: int = Field(default=1, ge=1, le=5)
-    
+
     @field_validator("rating")
     def validate_rating(cls, value):
         if not 1 <= value <= 5:
-              raise ValueError("Rating must be between 1 and 5")
+            raise ValueError("Rating must be between 1 and 5")
         return value
 
     def to_entity(

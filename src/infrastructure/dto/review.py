@@ -1,11 +1,9 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from uuid import uuid4
 
 from src.domain.review.entities import Review
 from src.infrastructure.dto.base import BaseDto
-
-
 
 
 @dataclass

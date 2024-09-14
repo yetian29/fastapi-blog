@@ -38,6 +38,12 @@ class IReviewRepository(ABC):
     async def get_by_id(self, oid: str) -> ReviewDto:
         pass
 
+    @abstractmethod
+    async def get_by_user_token_and_post_id(
+        self, user_token: str, post_id: str
+    ) -> ReviewDto:
+        pass
+
 
 class MongoReviewRepository(IReviewRepository):
     async def create(self, review: ReviewDto) -> ReviewDto:
@@ -69,6 +75,18 @@ class MongoReviewRepository(IReviewRepository):
     async def get_by_id(self, oid: str) -> ReviewDto:
         try:
             doc = await self.collection.find_one({"oid": oid})
+        except:
+            fail(ReviewNotFoundException())
+        else:
+            return ReviewDto.load(doc)
+
+    async def get_by_user_token_and_post_id(
+        self, user_token: str, post_id: str
+    ) -> ReviewDto:
+        try:
+            doc = await self.collection.find_one(
+                {"user_token": user_token, "post_id": post_id}
+            )
         except:
             fail(ReviewNotFoundException())
         else:

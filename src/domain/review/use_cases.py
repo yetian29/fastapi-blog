@@ -1,28 +1,19 @@
 from dataclasses import dataclass
 
 from src.domain.review.commands import (
-    CreateReviewCommand,
+    CreateOrUpdateReviewCommand,
     DeleteReviewCommand,
-    UpdateReviewCommand,
 )
 from src.domain.review.entities import Review
 from src.domain.review.services import IReviewService
 
 
 @dataclass
-class CreateReviewUseCase:
+class CreateOrUpdateReviewUseCase:
     review_service: IReviewService
 
-    async def execute(self, command: CreateReviewCommand) -> Review:
-        return await self.review_service.create(review=command.review)
-
-
-@dataclass
-class UpdateReviewUseCase:
-    review_service: IReviewService
-
-    async def execute(self, command: UpdateReviewCommand) -> Review:
-        return await self.review_service.update(review=command.review)
+    async def execute(self, command: CreateOrUpdateReviewCommand) -> Review:
+        return await self.review_service.create_or_update(review=command.review)
 
 
 @dataclass

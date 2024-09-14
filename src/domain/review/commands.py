@@ -4,12 +4,7 @@ from src.domain.review.entities import Review
 
 
 @dataclass
-class CreateReviewCommand:
-    review: Review
-
-
-@dataclass
-class UpdateReviewCommand:
+class CreateOrUpdateReviewCommand:
     review: Review
 
 
