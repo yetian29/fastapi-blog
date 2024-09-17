@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from uuid import uuid4
 
+from src.domain.user_auth.entities import User
 from src.domain.user_profile.entities import UserProfile
 from src.infrastructure.dto.base import BaseDto
 
@@ -9,6 +10,7 @@ from src.infrastructure.dto.base import BaseDto
 @dataclass
 class UserProfileDto(BaseDto):
     oid: str | None
+    user_id: str
     phone_number: str
     username: str
     date_of_birth: str
@@ -29,6 +31,7 @@ class UserProfileDto(BaseDto):
             return None
         return UserProfileDto(
             oid=data.get("oid"),
+            user_id=data.get("user_id"),
             phone_number=data.get("phone_number"),
             username=data.get("username"),
             date_of_birth=data.get("date_of_birth"),
@@ -40,6 +43,7 @@ class UserProfileDto(BaseDto):
     def from_entity(user: UserProfile) -> "UserProfileDto":
         return UserProfileDto(
             oid=user.oid,
+            user_id=user.user.oid,
             phone_number=user.phone_number,
             username=user.username,
             date_of_birth=user.date_of_birth,
@@ -49,8 +53,9 @@ class UserProfileDto(BaseDto):
 
     def to_entity(self) -> UserProfile:
         return UserProfile(
-            oid=self.oid,
-            phone_number=self.phone_number,
+            oid=self.oid, 
+            user_id=self.user_id,
+            phone_number=self.phone_number,   
             username=self.username,
             date_of_birth=self.date_of_birth,
             created_at=self.created_at,

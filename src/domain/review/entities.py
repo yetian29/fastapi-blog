@@ -6,7 +6,7 @@ from src.domain.user_auth.entities import User
 
 @dataclass
 class Review(BaseOid, BaseTime):
-    user_id: str | NotLoaded
-    post_id: str | NotLoaded
+    user_id: str 
+    post_id: str 
     rating: int
     content: str

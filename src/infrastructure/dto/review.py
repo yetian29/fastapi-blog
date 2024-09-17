@@ -1,8 +1,7 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from uuid import uuid4
 
-from src.domain.common.base import NotLoaded
 from src.domain.review.entities import Review
 from src.infrastructure.dto.base import BaseDto
 
@@ -14,8 +13,8 @@ class ReviewDto(BaseDto):
     created_at: datetime | None
     updated_at: datetime | None
     rating: int
-    post_id: str | NotLoaded = field(default_factory=NotLoaded)
-    user_id: str | NotLoaded = field(default_factory=NotLoaded)
+    post_id: str
+    user_id: str
 
     def __post_init__(self):
         if not self.oid:

@@ -5,8 +5,8 @@ from src.domain.review.entities import Review
 
 @dataclass
 class CreateOrUpdateReviewCommand:
-    review: Review
     user_token: str
+    review: Review
 
 
 @dataclass
