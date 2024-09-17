@@ -22,6 +22,8 @@ from src.domain.user_auth.services import (
     IUserService,
 )
 from src.domain.user_auth.use_cases import AuthorizeUserUseCase, LoginUserUseCase
+from src.domain.user_profile.services import IUserProfileService
+from src.domain.user_profile.use_cases import CreateUserProfileUseCase, GetUserProfileUseCase, UpdateUserProfileUseCase
 from src.infrastructure.database import Database
 from src.infrastructure.repositories.post import IPostRepository, MongoPostRepository
 from src.infrastructure.repositories.review import (
@@ -32,6 +34,7 @@ from src.infrastructure.repositories.user_auth import (
     IUserRepository,
     MongoUserRepository,
 )
+from src.infrastructure.repositories.user_profile import IUserProfileRepository, MongoUserProfileRepository
 from src.services.post import PostService
 from src.services.review import ReviewService
 from src.services.user_auth import (
@@ -40,6 +43,7 @@ from src.services.user_auth import (
     SMSSendService,
     UserService,
 )
+from src.services.user_profile import UserProfileService
 
 
 def get_container() -> punq.Container:
@@ -79,5 +83,12 @@ def init_container() -> punq.Container:
 
     container.register(CreateOrUpdateReviewUseCase)
     container.register(DeleteReviewUseCase)
+
+    # user profile
+    container.register(IUserProfileRepository, MongoUserProfileRepository)
+    container.register(IUserProfileService, UserProfileService)
+    container.register(CreateUserProfileUseCase)
+    container.register(UpdateUserProfileUseCase)
+    container.register(GetUserProfileUseCase)
 
     return container
