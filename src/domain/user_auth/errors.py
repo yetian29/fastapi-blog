@@ -15,3 +15,6 @@ class CreateUserNotSuccessException(BaseUserException):
 
 class UpdateUserNotSuccessException(BaseUserException):
     pass
+
+class GetOrCreateUserNotSuccessException(BaseUserException):
+    pass

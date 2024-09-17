@@ -7,7 +7,7 @@ from uuid import uuid4
 from fastapi_cache import FastAPICache
 
 from src.domain.user_auth.entities import User
-from src.domain.user_auth.errors import UserNotFoundException
+from src.domain.user_auth.errors import GetOrCreateUserNotSuccessException, UpdateUserNotSuccessException, UserNotFoundException
 from src.domain.user_auth.services import (
     ICodeService,
     ILoginService,
@@ -73,10 +73,12 @@ class UserService(IUserService):
     async def get_or_create(self, user: User) -> User:
         dto = UserDto.from_entity(user)
         dto = await self.repository.get_or_create(dto)
+        if not dto:
+            fail(GetOrCreateUserNotSuccessException())
         return dto.to_entity()
 
-    async def get(self, phone_number: str) -> User:
-        dto = await self.repository.get(phone_number)
+    async def get_by_phone_number(self, phone_number: str) -> User:
+        dto = await self.repository.get_by_phone_number(phone_number)
         if not dto:
             fail(UserNotFoundException())
         return dto.to_entity()
@@ -84,4 +86,6 @@ class UserService(IUserService):
     async def update(self, user: User) -> User:
         dto = UserDto.from_entity(user)
         dto = await self.repository.update(dto)
+        if not dto:
+            fail(UpdateUserNotSuccessException())
         return dto.to_entity()

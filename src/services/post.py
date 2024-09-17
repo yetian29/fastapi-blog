@@ -2,7 +2,9 @@ from dataclasses import dataclass
 
 from src.domain.post.entities import Post
 from src.domain.post.errors import (
+    CreatePostNotSuccessException,
     PostNotFoundException,
+    UpdatePostNotSuccessException,
 )
 from src.domain.post.services import IPostService
 from src.helper.errors import fail
@@ -23,11 +25,15 @@ class PostService(IPostService):
     async def create(self, post: Post) -> Post:
         dto = PostDto.from_entity(post)
         dto = await self.repository.create(dto)
+        if not dto:
+            fail(CreatePostNotSuccessException())
         return dto.to_entity()
 
     async def update(self, post: Post) -> Post:
         dto = PostDto.from_entity(post)
         dto = await self.repository.update(dto)
+        if not dto:
+            fail(UpdatePostNotSuccessException())
         return dto.to_entity()
 
     async def delete(self, oid: str) -> Post:

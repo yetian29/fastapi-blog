@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 
 from src.domain.review.entities import Review
-from src.domain.review.errors import ReviewNotFoundException
+from src.domain.review.errors import CreateReviewNotSuccessException, ReviewNotFoundException
 from src.domain.review.services import IReviewService
 from src.helper.errors import fail
 from src.infrastructure.dto.review import ReviewDto
@@ -32,6 +32,8 @@ class ReviewService(IReviewService):
     async def create(self, review: Review) -> Review:
         dto = ReviewDto.from_entity(review)
         dto = await self.repository.create(dto)
+        if not dto:
+            fail(CreateReviewNotSuccessException())
         return dto.to_entity()
 
     async def update(self, review: Review) -> Review:

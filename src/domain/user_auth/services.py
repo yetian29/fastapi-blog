@@ -31,7 +31,7 @@ class IUserService(ABC):
         pass
 
     @abstractmethod
-    async def get(self, phone_number: str) -> User:
+    async def get_by_phone_number(self, phone_number: str) -> User:
         pass
 
     @abstractmethod

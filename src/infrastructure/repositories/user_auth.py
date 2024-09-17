@@ -23,7 +23,7 @@ class IUserRepository(ABC):
         return self.database.connection.get_collection(self.collection_name)
 
     @abstractmethod
-    async def get(self, phone_number: str) -> UserDto:
+    async def get_by_phone_number(self, phone_number: str) -> UserDto:
         pass
 
     @abstractmethod
@@ -40,7 +40,7 @@ class IUserRepository(ABC):
 
 
 class MongoUserRepository(IUserRepository):
-    async def get(self, phone_number: str) -> UserDto:
+    async def get_by_phone_number(self, phone_number: str) -> UserDto:
         try:
             doc = await self.collection.find_one({"phone_number": phone_number})
         except:
