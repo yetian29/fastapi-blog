@@ -18,6 +18,7 @@ router = APIRouter()
 
 @router.post("/{post_id}", response_model=ApiResponse[ReviewOutSchema])
 async def create_or_update_review_views(
+    user_id: str,
     post_id: str,
     review_in: ReviewInSchema,
     user_token: str = Header(),
@@ -26,8 +27,10 @@ async def create_or_update_review_views(
     use_case: CreateOrUpdateReviewUseCase = container.resolve(
         CreateOrUpdateReviewUseCase
     )
+    
     command = CreateOrUpdateReviewCommand(
-        review=review_in.to_entity(user_token=user_token, post_id=post_id)
+        review=review_in.to_entity(user_id=user_id, post_id=post_id),
+        user_token=user_token
     )
     review = await use_case.execute(command)
     return ApiResponse(data=ReviewOutSchema.from_entity(review))

@@ -11,3 +11,11 @@ class BaseOid:
 class BaseTime:
     created_at: datetime | None
     updated_at: datetime | None
+
+
+class NotLoaded:
+    def __bool__(self) -> bool:
+        return False
+    
+    def __repr__(self) -> str:
+        return "<NotLoaded>"

@@ -1,7 +1,7 @@
-
-
 from dataclasses import dataclass
+
 from src.domain.common.base import BaseOid, BaseTime
+
 
 @dataclass
 class UserProfile(BaseOid, BaseTime):

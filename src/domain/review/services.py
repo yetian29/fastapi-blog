@@ -9,8 +9,8 @@ class IReviewService(ABC):
         pass
 
     @abstractmethod
-    async def get_by_user_token_and_post_id(
-        self, user_token: str, post_id: str
+    async def get_by_user_id_and_post_id(
+        self, user_id: str, post_id: str
     ) -> Review:
         pass
 

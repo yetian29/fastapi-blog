@@ -1,7 +1,8 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from uuid import uuid4
 
+from src.domain.common.base import NotLoaded
 from src.domain.review.entities import Review
 from src.infrastructure.dto.base import BaseDto
 
@@ -9,12 +10,12 @@ from src.infrastructure.dto.base import BaseDto
 @dataclass
 class ReviewDto(BaseDto):
     oid: str | None
-    user_token: str
-    post_id: str
     content: str
     created_at: datetime | None
     updated_at: datetime | None
     rating: int
+    post_id: str | NotLoaded = field(default_factory=NotLoaded)
+    user_id: str | NotLoaded = field(default_factory=NotLoaded)
 
     def __post_init__(self):
         if not self.oid:
@@ -30,7 +31,7 @@ class ReviewDto(BaseDto):
             return None
         return ReviewDto(
             oid=data.get("oid"),
-            user_token=data.get("user_token"),
+            user_id=data.get("user_id"),
             post_id=data.get("post_id"),
             rating=data.get("rating"),
             content=data.get("content"),
@@ -42,7 +43,7 @@ class ReviewDto(BaseDto):
     def from_entity(review: Review) -> "ReviewDto":
         return ReviewDto(
             oid=review.oid,
-            user_token=review.user_token,
+            user_id=review.user_id,
             post_id=review.post_id,
             rating=review.rating,
             content=review.content,
@@ -53,7 +54,7 @@ class ReviewDto(BaseDto):
     def to_entity(self) -> Review:
         return Review(
             oid=self.oid,
-            user_token=self.user_token,
+            user_id=self.user_id,
             post_id=self.post_id,
             rating=self.rating,
             content=self.content,

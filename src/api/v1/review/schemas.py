@@ -16,11 +16,11 @@ class ReviewInSchema(BaseModel):
         return value
 
     def to_entity(
-        self, user_token: str, post_id: str, oid: str | None = None
+        self, user_id: str, post_id: str, oid: str | None = None
     ) -> Review:
         return Review(
             oid=oid,
-            user_token=user_token,
+            user_id=user_id,
             post_id=post_id,
             rating=self.rating,
             content=self.content,
