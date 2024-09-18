@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
 from pymongo import ReturnDocument
 
@@ -12,6 +13,7 @@ from src.infrastructure.database import Database
 from src.infrastructure.dto.user_profile import UserProfileDto
 
 
+@dataclass
 class IUserProfileRepository(ABC):
     database: Database
     collection_name: str = "profiles"
@@ -27,16 +29,18 @@ class IUserProfileRepository(ABC):
     @abstractmethod
     async def update(self, user: UserProfileDto) -> UserProfileDto:
         pass
-
+    
+  
+    
     @abstractmethod
-    async def get_by_id(self, oid: str) -> UserProfileDto:
+    async def get_by_phone_number(self, phone_number: str) -> UserProfileDto:
         pass
 
 
 class MongoUserProfileRepository(IUserProfileRepository):
-    async def get_by_id(self, oid: str) -> UserProfileDto:
+    async def get_by_id(self, phone_number: str) -> UserProfileDto:
         try:
-            doc = await self.collection.find_one({"oid": oid})
+            doc = await self.collection.find_one({"phone_numbere": phone_number})
         except:
             fail(UserProfileNotFoundException())
         else:
@@ -64,3 +68,5 @@ class MongoUserProfileRepository(IUserProfileRepository):
             fail(UpdateUserProfileNotSuccessException())
         else:
             return UserProfileDto.load(updated_user)
+
+

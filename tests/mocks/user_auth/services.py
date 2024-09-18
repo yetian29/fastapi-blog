@@ -60,8 +60,11 @@ class DummyLoginService(ILoginService):
 
 
 class DummyUserService(IUserService):
-    async def get(self, phone_number: str) -> User:
+    async def get_by_phone_number(self, phone_number: str) -> User:
         return UserFactory.build(phone_number=phone_number)
+
+    async def get_by_id(self, oid: str) -> User:
+        return UserFactory.build(oid=oid)
 
     async def get_or_create(self, user: User) -> User:
         return user

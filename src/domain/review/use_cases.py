@@ -18,9 +18,9 @@ class CreateOrUpdateReviewUseCase:
     user_service: IUserService
     post_service: IPostService
 
-    async def execute(self, command: CreateOrUpdateReviewCommand) -> Review:
+    async def execute(self, check: str, command: CreateOrUpdateReviewCommand) -> Review:
         user = await self.user_service.get_by_id(oid=command.review.user_id)
-        if user.token == command.user_token: 
+        if user.token == check:
             await self.post_service.get_by_id(oid=command.review.post_id)
             return await self.review_service.create_or_update(review=command.review)
         else:

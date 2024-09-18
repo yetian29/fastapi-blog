@@ -10,10 +10,8 @@ class DummyReviewService(IReviewService):
     async def get_by_id(self, oid: str) -> Review:
         return ReviewFactory.build(oid=oid)
 
-    async def get_by_user_token_and_post_id(
-        self, user_token: str, post_id: str
-    ) -> Review:
-        return ReviewFactory.build(user_token=user_token, post_id=post_id)
+    async def get_by_user_id_and_post_id(self, user_id: str, post_id: str) -> Review:
+        return ReviewFactory.build(user_id=user_id, post_id=post_id)
 
     async def create_or_update(self, review: Review) -> Review:
         existing_review = await self.get_by_user_token_and_post_id(

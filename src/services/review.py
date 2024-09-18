@@ -22,9 +22,7 @@ class ReviewService(IReviewService):
             fail(ReviewNotFoundException())
         return dto.to_entity()
 
-    async def get_by_user_id_and_post_id(
-        self, user_id: str, post_id: str
-    ) -> Review:
+    async def get_by_user_id_and_post_id(self, user_id: str, post_id: str) -> Review:
         dto = await self.repository.get_by_user_id_and_post_id(
             user_id=user_id, post_id=post_id
         )

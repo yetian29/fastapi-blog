@@ -27,12 +27,11 @@ async def create_or_update_review_views(
     use_case: CreateOrUpdateReviewUseCase = container.resolve(
         CreateOrUpdateReviewUseCase
     )
-    
+
     command = CreateOrUpdateReviewCommand(
-        user_token=user_token,
         review=review_in.to_entity(user_id=user_id, post_id=post_id)
     )
-    review = await use_case.execute(command)
+    review = await use_case.execute(check=user_token, command=command)
     return ApiResponse(data=ReviewOutSchema.from_entity(review))
 
 

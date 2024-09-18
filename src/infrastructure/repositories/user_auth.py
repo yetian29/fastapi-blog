@@ -29,7 +29,7 @@ class IUserRepository(ABC):
     @abstractmethod
     async def get_by_id(self, oid: str) -> UserDto:
         pass
-    
+
     @abstractmethod
     async def create(self, user: UserDto) -> UserDto:
         pass
@@ -51,7 +51,7 @@ class MongoUserRepository(IUserRepository):
             fail(UserNotFoundException())
         else:
             return UserDto.load(doc)
-        
+
     async def get_by_id(self, oid: str) -> UserDto:
         try:
             doc = await self.collection.find_one({"oid": oid})
@@ -59,7 +59,7 @@ class MongoUserRepository(IUserRepository):
             fail(UserNotFoundException())
         else:
             return UserDto.load(doc)
-        
+
     async def create(self, user: UserDto) -> UserDto:
         try:
             new_user = await self.collection.insert_one(user.dump())

@@ -24,9 +24,8 @@ from src.domain.user_auth.services import (
 from src.domain.user_auth.use_cases import AuthorizeUserUseCase, LoginUserUseCase
 from src.domain.user_profile.services import IUserProfileService
 from src.domain.user_profile.use_cases import (
-    CreateUserProfileUseCase,
+    CreateOrUpdateUserProfileUseCase,
     GetUserProfileUseCase,
-    UpdateUserProfileUseCase,
 )
 from src.infrastructure.database import Database
 from src.infrastructure.repositories.post import IPostRepository, MongoPostRepository
@@ -94,8 +93,7 @@ def init_container() -> punq.Container:
     # user profile
     container.register(IUserProfileRepository, MongoUserProfileRepository)
     container.register(IUserProfileService, UserProfileService)
-    container.register(CreateUserProfileUseCase)
-    container.register(UpdateUserProfileUseCase)
+    container.register(CreateOrUpdateUserProfileUseCase)
     container.register(GetUserProfileUseCase)
 
     return container

@@ -15,9 +15,7 @@ class ReviewInSchema(BaseModel):
             raise ValueError("Rating must be between 1 and 5")
         return value
 
-    def to_entity(
-        self, user_id: str, post_id: str, oid: str | None = None
-    ) -> Review:
+    def to_entity(self, user_id: str, post_id: str, oid: str | None = None) -> Review:
         return Review(
             oid=oid,
             user_id=user_id,

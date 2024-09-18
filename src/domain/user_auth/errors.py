@@ -20,5 +20,6 @@ class UpdateUserNotSuccessException(BaseUserException):
 class GetOrCreateUserNotSuccessException(BaseUserException):
     pass
 
+
 class UserInvalidException(BaseUserException):
     pass

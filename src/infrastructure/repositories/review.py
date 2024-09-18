@@ -39,9 +39,7 @@ class IReviewRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_by_user_id_and_post_id(
-        self, user_id: str, post_id: str
-    ) -> ReviewDto:
+    async def get_by_user_id_and_post_id(self, user_id: str, post_id: str) -> ReviewDto:
         pass
 
 
@@ -80,9 +78,7 @@ class MongoReviewRepository(IReviewRepository):
         else:
             return ReviewDto.load(doc)
 
-    async def get_by_user_id_and_post_id(
-        self, user_id: str, post_id: str
-    ) -> ReviewDto:
+    async def get_by_user_id_and_post_id(self, user_id: str, post_id: str) -> ReviewDto:
         try:
             doc = await self.collection.find_one(
                 {"user_id": user_id, "post_id": post_id}

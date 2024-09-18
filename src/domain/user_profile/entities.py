@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
 from src.domain.common.base import BaseOid, BaseTime
-from src.domain.user_auth.entities import User
 
 
 @dataclass

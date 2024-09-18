@@ -29,7 +29,9 @@ class LoginUserUseCase:
     user_service: IUserService
 
     async def execute(self, command: LoginUserCommand) -> str:
-        user = await self.user_service.get(phone_number=command.phone_number)
+        user = await self.user_service.get_by_phone_number(
+            phone_number=command.phone_number
+        )
         await self.code_service.validate_code(
             phone_number=user.phone_number, code=command.code
         )

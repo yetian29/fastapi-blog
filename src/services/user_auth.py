@@ -86,7 +86,7 @@ class UserService(IUserService):
         if not dto:
             fail(UserNotFoundException())
         return dto.to_entity()
-    
+
     async def get_by_id(self, oid: str) -> User:
         dto = await self.repository.get_by_id(oid)
         if not dto:

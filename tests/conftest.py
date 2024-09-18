@@ -10,6 +10,7 @@ from src.domain.user_auth.services import (
     ISendService,
     IUserService,
 )
+from src.domain.user_auth.use_cases import AuthorizeUserUseCase, LoginUserUseCase
 from src.domain.user_profile.services import IUserProfileService
 from tests.mocks.post.services import DummyPostService
 from tests.mocks.review.services import DummyReviewService
@@ -41,3 +42,13 @@ def mock_test_container() -> punq.Container:
     container.register(IUserProfileService, DummyUserProfileService)
 
     return container
+
+
+@pytest.fixture(scope="function")
+def mock_authorize_user_use_case(mock_test_container):
+    return mock_test_container.resolve(AuthorizeUserUseCase)
+
+
+@pytest.fixture(scope="function")
+def mock_login_user_use_case(mock_test_container):
+    return mock_test_container.resolve(LoginUserUseCase)

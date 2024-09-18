@@ -1,9 +1,8 @@
 from polyfactory.factories import DataclassFactory
 
 from src.domain.user_profile.commands import (
-    CreateUserProfileCommand,
+    CreateOrUpdateUserProfileCommand,
     GetUserProfileCommand,
-    UpdateUserProfileCommand,
 )
 from src.domain.user_profile.entities import UserProfile
 
@@ -12,12 +11,8 @@ class UserProfileFactory(DataclassFactory[UserProfile]):
     __model__ = UserProfile
 
 
-class CreateUserProfileCommandFactory(DataclassFactory[CreateUserProfileCommand]):
-    __model__ = CreateUserProfileCommand
-
-
-class UpdateUserProfileCommandFactory(DataclassFactory[UpdateUserProfileCommand]):
-    __model__ = UpdateUserProfileCommand
+class CreateOrUpdateUserProfileCommandFactory(DataclassFactory[CreateOrUpdateUserProfileCommand]):
+    __model__ = CreateOrUpdateUserProfileCommand
 
 
 class GetUserProfileCommandFactory(DataclassFactory[GetUserProfileCommand]):
