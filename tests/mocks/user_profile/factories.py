@@ -11,7 +11,9 @@ class UserProfileFactory(DataclassFactory[UserProfile]):
     __model__ = UserProfile
 
 
-class CreateOrUpdateUserProfileCommandFactory(DataclassFactory[CreateOrUpdateUserProfileCommand]):
+class CreateOrUpdateUserProfileCommandFactory(
+    DataclassFactory[CreateOrUpdateUserProfileCommand]
+):
     __model__ = CreateOrUpdateUserProfileCommand
 
 

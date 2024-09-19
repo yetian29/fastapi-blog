@@ -4,6 +4,7 @@ from src.domain.review.use_cases import (
     CreateOrUpdateReviewUseCase,
     DeleteReviewUseCase,
 )
+from src.domain.user_auth.use_cases import AuthorizeUserUseCase, LoginUserUseCase
 from tests.mocks.review.factories import (
     CreateOrUpdateReviewCommandFactory,
     DeleteReviewCommandFactory,
@@ -12,6 +13,16 @@ from tests.mocks.user_auth.factories import (
     AuthorizeUserCommandFactory,
     LoginUserCommandFactory,
 )
+
+
+@pytest.fixture(scope="function")
+def mock_authorize_user_use_case(mock_test_container):
+    return mock_test_container.resolve(AuthorizeUserUseCase)
+
+
+@pytest.fixture(scope="function")
+def mock_login_user_use_case(mock_test_container):
+    return mock_test_container.resolve(LoginUserUseCase)
 
 
 @pytest.fixture(scope="function")

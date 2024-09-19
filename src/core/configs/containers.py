@@ -12,8 +12,10 @@ from src.domain.post.use_cases import (
 )
 from src.domain.review.services import IReviewService
 from src.domain.review.use_cases import (
-    CreateOrUpdateReviewUseCase,
+    CreateReviewUseCase,
     DeleteReviewUseCase,
+    GetReviewUseCase,
+    UpdateReviewUseCase,
 )
 from src.domain.user_auth.services import (
     ICodeService,
@@ -24,8 +26,9 @@ from src.domain.user_auth.services import (
 from src.domain.user_auth.use_cases import AuthorizeUserUseCase, LoginUserUseCase
 from src.domain.user_profile.services import IUserProfileService
 from src.domain.user_profile.use_cases import (
-    CreateOrUpdateUserProfileUseCase,
+    CreateUserProfileUseCase,
     GetUserProfileUseCase,
+    UpdateUserProfileUseCase,
 )
 from src.infrastructure.database import Database
 from src.infrastructure.repositories.post import IPostRepository, MongoPostRepository
@@ -87,13 +90,17 @@ def init_container() -> punq.Container:
     container.register(IReviewRepository, MongoReviewRepository)
     container.register(IReviewService, ReviewService)
 
-    container.register(CreateOrUpdateReviewUseCase)
+    container.register(CreateReviewUseCase)
+    container.register(UpdateReviewUseCase)
     container.register(DeleteReviewUseCase)
+    container.register(GetReviewUseCase)
 
     # user profile
     container.register(IUserProfileRepository, MongoUserProfileRepository)
     container.register(IUserProfileService, UserProfileService)
-    container.register(CreateOrUpdateUserProfileUseCase)
+    
+    container.register(CreateUserProfileUseCase)
+    container.register(UpdateUserProfileUseCase)
     container.register(GetUserProfileUseCase)
 
     return container

@@ -4,10 +4,12 @@ from src.domain.user_profile.entities import UserProfile
 
 
 @dataclass
-class CreateOrUpdateUserProfileCommand:
+class CreateUserProfileCommand:
     user_profile: UserProfile
 
-
+@dataclass
+class UpdateUserProfileCommand:
+    user_profile: UserProfile
 
 @dataclass
 class GetUserProfileCommand:

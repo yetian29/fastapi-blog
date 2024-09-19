@@ -10,7 +10,6 @@ class DummyUserProfileService(IUserProfileService):
     async def update(self, user: UserProfile) -> UserProfile:
         return user
 
-
     async def get_by_phone_number(self, phone_number: str) -> UserProfile:
         return UserProfileFactory.build(phone_number=phone_number)
 

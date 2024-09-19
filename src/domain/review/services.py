@@ -9,15 +9,7 @@ class IReviewService(ABC):
         pass
 
     @abstractmethod
-    async def get_by_user_id_and_post_id(self, user_id: str, post_id: str) -> Review:
-        pass
-
-    @abstractmethod
     async def create(self, review: Review) -> Review:
-        pass
-
-    @abstractmethod
-    async def create_or_update(self, review: Review) -> Review:
         pass
 
     @abstractmethod

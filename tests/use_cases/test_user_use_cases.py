@@ -1,18 +1,22 @@
 from uuid import UUID
 
+import pytest
+
+from src.domain.user_auth.use_cases import AuthorizeUserUseCase, LoginUserUseCase
 from tests.mocks.user_auth.factories import (
     AuthorizeUserCommandFactory,
     LoginUserCommandFactory,
 )
 
-# @pytest.fixture(scope="function")
-# def mock_authorize_user_use_case(mock_test_container):
-#     return mock_test_container.resolve(AuthorizeUserUseCase)
+
+@pytest.fixture(scope="function")
+def mock_authorize_user_use_case(mock_test_container):
+    return mock_test_container.resolve(AuthorizeUserUseCase)
 
 
-# @pytest.fixture(scope="function")
-# def mock_login_user_use_case(mock_test_container):
-#     return mock_test_container.resolve(LoginUserUseCase)
+@pytest.fixture(scope="function")
+def mock_login_user_use_case(mock_test_container):
+    return mock_test_container.resolve(LoginUserUseCase)
 
 
 async def test_authorize_and_login_user_use_case(

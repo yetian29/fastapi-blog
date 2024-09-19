@@ -23,24 +23,23 @@ class IUserProfileRepository(ABC):
         return self.database.connection.get_collection(self.collection_name)
 
     @abstractmethod
+    async def get_by_id(self, oid: str) -> UserProfileDto:
+        pass
+    
+    @abstractmethod
     async def create(self, user: UserProfileDto) -> UserProfileDto:
         pass
 
     @abstractmethod
     async def update(self, user: UserProfileDto) -> UserProfileDto:
         pass
-    
-  
-    
-    @abstractmethod
-    async def get_by_phone_number(self, phone_number: str) -> UserProfileDto:
-        pass
+
 
 
 class MongoUserProfileRepository(IUserProfileRepository):
-    async def get_by_id(self, phone_number: str) -> UserProfileDto:
+    async def get_by_id(self, oid: str) -> UserProfileDto:
         try:
-            doc = await self.collection.find_one({"phone_numbere": phone_number})
+            doc = await self.collection.find_one({"oid": oid})
         except:
             fail(UserProfileNotFoundException())
         else:
@@ -68,5 +67,3 @@ class MongoUserProfileRepository(IUserProfileRepository):
             fail(UpdateUserProfileNotSuccessException())
         else:
             return UserProfileDto.load(updated_user)
-
-

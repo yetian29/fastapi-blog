@@ -23,6 +23,10 @@ class IReviewRepository(ABC):
         return self.database.connection.get_collection(self.collection_name)
 
     @abstractmethod
+    async def get_by_id(self, oid: str) -> ReviewDto:
+        pass
+
+    @abstractmethod
     async def create(self, review: ReviewDto) -> ReviewDto:
         pass
 
@@ -34,16 +38,16 @@ class IReviewRepository(ABC):
     async def delete(self, oid: str) -> None:
         pass
 
-    @abstractmethod
-    async def get_by_id(self, oid: str) -> ReviewDto:
-        pass
-
-    @abstractmethod
-    async def get_by_user_id_and_post_id(self, user_id: str, post_id: str) -> ReviewDto:
-        pass
-
 
 class MongoReviewRepository(IReviewRepository):
+    async def get_by_id(self, oid: str) -> ReviewDto:
+        try:
+            doc = await self.collection.find_one({"oid": oid})
+        except:
+            fail(ReviewNotFoundException())
+        else:
+            return ReviewDto.load(doc)
+
     async def create(self, review: ReviewDto) -> ReviewDto:
         try:
             new_review = await self.collection.insert_one(review.dump())
@@ -69,21 +73,3 @@ class MongoReviewRepository(IReviewRepository):
 
     async def delete(self, oid: str) -> None:
         await self.collection.delete_one({"oid": oid})
-
-    async def get_by_id(self, oid: str) -> ReviewDto:
-        try:
-            doc = await self.collection.find_one({"oid": oid})
-        except:
-            fail(ReviewNotFoundException())
-        else:
-            return ReviewDto.load(doc)
-
-    async def get_by_user_id_and_post_id(self, user_id: str, post_id: str) -> ReviewDto:
-        try:
-            doc = await self.collection.find_one(
-                {"user_id": user_id, "post_id": post_id}
-            )
-        except:
-            fail(ReviewNotFoundException())
-        else:
-            return ReviewDto.load(doc)
