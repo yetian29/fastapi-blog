@@ -22,11 +22,11 @@ class IPostRepository(ABC):
         pass
 
     @abstractmethod
-    async def create(self, post: PostDto) -> None:
+    async def create(self, post: PostDto) -> PostDto:
         pass
 
     @abstractmethod
-    async def update(self, post: PostDto) -> None:
+    async def update(self, post: PostDto) -> Optional[PostDto]:
         pass
 
     @abstractmethod
@@ -45,7 +45,7 @@ class IPostRepository(ABC):
         pass
 
     @abstractmethod
-    async def count_many(self, search: Optional[str] = None) -> int:
+    async def count_many(self, search: Optional[str] = None) -> Optional[int]:
         pass
 
 
@@ -54,15 +54,18 @@ class MongoPostRepository(IPostRepository):
         doc = await self.collection.find_one({"oid": oid})
         return PostDto.load(doc)
 
-    async def create(self, post: PostDto) -> None:
-        await self.collection.insert_one(post.dump())
+    async def create(self, post: PostDto) -> PostDto:
+        doc = await self.collection.insert_one(post.dump())
+        doc = await self.collection.find_one({"oid": doc.oid})
+        return PostDto.load(doc)
 
-    async def update(self, post: PostDto) -> None:
-        await self.collection.find_one_and_update(
+    async def update(self, post: PostDto) -> Optional[PostDto]:
+        doc = await self.collection.find_one_and_update(
             {"oid": post.oid},
             {"$set": post.dump()},
             return_document=ReturnDocument.AFTER,
         )
+        return PostDto.load(doc)
 
     async def delete(self, oid: str) -> None:
         await self.collection.delete_one({"oid": oid})
@@ -93,3 +96,7 @@ class MongoPostRepository(IPostRepository):
         )
         async for doc in cursor:
             yield PostDto.load(doc)
+
+    async def count_many(self, search: Optional[str] = None) -> Optional[int]:
+        query = self._build_find_query(search)
+        return await self.collection.count_documents(query)

@@ -6,8 +6,6 @@ from domain.base.value_object import BaseValueObject
 
 
 # value object of entities
-
-
 @dataclass(frozen=True)
 class PostTitle(BaseValueObject):
     value: str
