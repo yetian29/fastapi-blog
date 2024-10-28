@@ -17,9 +17,11 @@ class IPostService(ABC):
     async def update(self, post: Post) -> Post:
         pass
 
+    @abstractmethod
     async def delete(self, oid: str) -> Post:
         pass
 
+    @abstractmethod
     async def find_many(
         self,
         sort_field: str,
@@ -30,5 +32,6 @@ class IPostService(ABC):
     ) -> Optional[list[Post]]:
         pass
 
+    @abstractmethod
     async def count_many(self, search: Optional[str] = None) -> Optional[int]:
         pass
