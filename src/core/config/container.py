@@ -1,4 +1,5 @@
 from functools import lru_cache
+
 import punq
 
 from src.domain.post.services import IPostService

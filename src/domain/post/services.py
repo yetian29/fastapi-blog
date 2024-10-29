@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import List, Optional
 
-from domain.post.entities import Post
+from src.domain.post.entities import Post
 
 
 class IPostService(ABC):
@@ -29,7 +29,7 @@ class IPostService(ABC):
         limit: int,
         offset: int,
         search: Optional[str] = None,
-    ) -> Optional[list[Post]]:
+    ) -> Optional[List[Post]]:
         pass
 
     @abstractmethod

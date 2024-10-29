@@ -1,7 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Optional
-from domain.post.entities import Post
-from domain.post.value_object import PaginationQuery, SortQuery
+
+from src.domain.post.entities import Post
+from src.domain.post.value_object import PaginationQuery, SortQuery
 
 
 @dataclass(frozen=True)

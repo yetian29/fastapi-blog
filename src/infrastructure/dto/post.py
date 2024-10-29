@@ -1,17 +1,27 @@
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
+from uuid import uuid4
+
 from src.domain.post.entities import Post
 from src.infrastructure.dto.base import BaseDto
 
 
-@dataclass(frozen=True)
+@dataclass
 class PostDto(BaseDto):
     oid: str
     title: str
     content: str
     created_at: datetime
     updated_at: datetime
+
+    def __post_init__(self):
+        if not self.oid:
+            self.oid = str(uuid4())
+        if not self.created_at:
+            self.created_at = datetime.now()
+        if not self.updated_at:
+            self.updated_at = datetime.now()
 
     @staticmethod
     def load(data: Optional[dict]) -> Optional["PostDto"]:

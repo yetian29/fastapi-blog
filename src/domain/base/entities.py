@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Optional
 
 
-@dataclass(frozen=True)
+@dataclass
 class BaseEntity:
-    oid: str
-    created_at: datetime
-    updated_at: datetime
+    oid: Optional[str]
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]

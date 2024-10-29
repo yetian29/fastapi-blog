@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from domain.base.exc import DomainValidationException
-from domain.base.value_object import BaseValueObject
+from src.domain.base.exc import DomainValidationException
+from src.domain.base.value_object import BaseValueObject
 
 
 # value object of entities
@@ -14,7 +14,7 @@ class PostTitle(BaseValueObject):
         if not self.value:
             raise DomainValidationException("Post title is required")
 
-        if self.value > 128:
+        if len(self.value) > 128:
             raise DomainValidationException(
                 "Invalid title. Post title must be less than 128 characters"
             )
@@ -28,7 +28,7 @@ class PostContent(BaseValueObject):
         if not self.value:
             raise DomainValidationException("Post content is required")
 
-        if self.value > 1024:
+        if len(self.value) > 1024:
             raise DomainValidationException(
                 "Invalid content. Post content must be less than 1024 characters"
             )
@@ -43,7 +43,7 @@ class SortOrderEnum(int, Enum):
 @dataclass(frozen=True)
 class SortQuery:
     sort_field: str = "oid"
-    sort_order: SortOrderEnum = SortOrderEnum.acs
+    sort_order: SortOrderEnum = SortOrderEnum.asc
 
 
 @dataclass(frozen=True)
