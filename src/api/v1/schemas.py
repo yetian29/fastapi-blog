@@ -4,6 +4,19 @@ from pydantic import BaseModel, Field
 
 TData = TypeVar("TData")
 
+TItems = TypeVar("TItems")
+
+
+class PaginationOutSchema(BaseModel):
+    page: int
+    limit: int
+    total: int
+
+
+class ListPaginatedResponse(BaseModel, Generic[TItems]):
+    items: List[TItems]
+    pagination: PaginationOutSchema
+
 
 class ApiResponse(BaseModel, Generic[TData]):
     data: TData | List | Dict = Field(default_factory=Dict)

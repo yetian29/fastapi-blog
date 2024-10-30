@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -10,7 +11,9 @@ class PostInSchema(BaseModel):
     title: str
     content: str
 
-    def to_entity(self, oid=None, created_at=None, updated_at=None) -> Post:
+    def to_entity(
+        self, oid: Optional[str] = None, created_at=None, updated_at=None
+    ) -> Post:
         return Post(
             oid=oid,
             title=PostTitle(self.title),
