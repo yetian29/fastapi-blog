@@ -37,8 +37,8 @@ class PostOutSchema(BaseModel):
     def from_entity(entity: Post) -> "PostOutSchema":
         return PostOutSchema(
             oid=entity.oid,
-            title=entity.title["value"],
-            content=entity.content["value"],
+            title=entity.title.get("value"),
+            content=entity.content.get("value"),
             created_at=entity.created_at,
             updated_at=entity.updated_at,
         )
