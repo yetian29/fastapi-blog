@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 from dataclasses import asdict
-from typing import Dict, Optional
+from typing import Optional
 
 
 class BaseDto(ABC):
-    def dump(self) -> Dict:
+    def dump(self) -> dict:
         return asdict(self)
 
     @staticmethod
     @abstractmethod
-    def load(data: Optional[Dict]) -> "BaseDto":
+    def load(data: Optional[dict]) -> "BaseDto":
         pass

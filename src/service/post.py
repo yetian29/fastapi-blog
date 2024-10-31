@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from src.domain.post.entities import Post
-from src.domain.post.exc import PostException
+from src.domain.post.exc import PostNotFoundException, PostsNotFoundException
 from src.domain.post.services import IPostService
 from src.infrastructure.dto.post import PostDto
 from src.infrastructure.repositories.post import IPostRepository
@@ -15,7 +15,7 @@ class PostService(IPostService):
     async def get_by_id(self, oid: str) -> Optional[Post]:
         dto = await self.repository.get_by_id(oid)
         if not dto:
-            raise PostException("Post isn't found")
+            raise PostNotFoundException
         return dto.to_entity()
 
     async def create(self, post: Post) -> Post:
@@ -27,7 +27,7 @@ class PostService(IPostService):
         dto = PostDto.from_entity(post)
         dto = await self.repository.update(dto)
         if not dto:
-            raise PostException("Post isn't found")
+            raise PostNotFoundException
         return dto.to_entity()
 
     async def delete(self, oid: str) -> Post:
@@ -47,11 +47,11 @@ class PostService(IPostService):
             sort_field, sort_order, limit, offset, search
         )
         if not post_iter:
-            raise PostException("Posts aren't found")
+            raise PostsNotFoundException
         return [post.to_entity() for post in post_iter]
 
     async def count_many(self, search: Optional[str] = None) -> int | None:
         count = await self.count_many(search)
         if not count:
-            raise PostException("Posts aren't found")
+            raise PostsNotFoundException
         return count

@@ -1,6 +1,5 @@
 import asyncio
 from dataclasses import dataclass
-from typing import List, Tuple
 
 from src.domain.post.command import (
     CreatePostCommand,
@@ -49,7 +48,7 @@ class GetPostUseCase:
 class GetPostListUseCase:
     service: IPostService
 
-    async def execute(self, command: GetPostListCommand) -> Tuple[List[Post], int]:
+    async def execute(self, command: GetPostListCommand) -> tuple[list[Post], int]:
         return await asyncio.gather(
             self.service.find_many(
                 sort_field=command.sort.sort_field,

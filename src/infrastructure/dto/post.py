@@ -9,11 +9,11 @@ from src.infrastructure.dto.base import BaseDto
 
 @dataclass
 class PostDto(BaseDto):
-    oid: str
+    oid: Optional[str]
     title: str
     content: str
-    created_at: datetime
-    updated_at: datetime
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
 
     def __post_init__(self):
         if not self.oid:

@@ -1,4 +1,4 @@
-from typing import Any, Dict, Generic, List, TypeVar
+from typing import Any, Generic, TypeVar
 
 from pydantic import BaseModel, Field
 
@@ -14,11 +14,11 @@ class PaginationOutSchema(BaseModel):
 
 
 class ListPaginatedResponse(BaseModel, Generic[TItems]):
-    items: List[TItems]
+    items: list[TItems]
     pagination: PaginationOutSchema
 
 
 class ApiResponse(BaseModel, Generic[TData]):
-    data: TData | List | Dict = Field(default_factory=Dict)
-    meta: Dict[str, Any] = Field(default_factory=Dict)
-    error: List[Any] = Field(default_factory=List)
+    data: TData | list | dict = Field(default_factory=dict)
+    meta: dict[str, Any] = Field(default_factory=dict)
+    error: list[Any] = Field(default_factory=list)

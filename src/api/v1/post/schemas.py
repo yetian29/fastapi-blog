@@ -3,30 +3,11 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from src.domain.post.command import GetPostListCommand
-from src.domain.post.entities import Post, PostSortFieldsEnum
+from src.domain.post.entities import Post
 from src.domain.post.value_object import (
-    PaginationQuery,
     PostContent,
     PostTitle,
-    SortOrderEnum,
-    SortQuery,
 )
-
-
-class PostQueryParams(BaseModel):
-    search: Optional[str] = None
-    sort_field: PostSortFieldsEnum = PostSortFieldsEnum.oid.value
-    sort_order: SortOrderEnum = SortOrderEnum.asc
-    page: int = 0
-    limit: int = 20
-
-    def to_command(self) -> GetPostListCommand:
-        return GetPostListCommand(
-            search=self.search,
-            sort=SortQuery(self.sort_field, self.sort_order),
-            pagination=PaginationQuery(self.page, self.limit),
-        )
 
 
 class PostInSchema(BaseModel):
@@ -56,8 +37,8 @@ class PostOutSchema(BaseModel):
     def from_entity(entity: Post) -> "PostOutSchema":
         return PostOutSchema(
             oid=entity.oid,
-            title=entity.title,
-            content=entity.content,
+            title=entity.title["value"],
+            content=entity.content["value"],
             created_at=entity.created_at,
             updated_at=entity.updated_at,
         )

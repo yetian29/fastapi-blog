@@ -56,7 +56,7 @@ class MongoPostRepository(IPostRepository):
 
     async def create(self, post: PostDto) -> PostDto:
         doc = await self.collection.insert_one(post.dump())
-        doc = await self.collection.find_one({"oid": doc.oid})
+        doc = await self.collection.find_one({"_id": doc.inserted_id})
         return PostDto.load(doc)
 
     async def update(self, post: PostDto) -> Optional[PostDto]:
