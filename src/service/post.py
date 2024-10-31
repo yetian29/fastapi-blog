@@ -48,10 +48,10 @@ class PostService(IPostService):
         )
         if not post_iter:
             raise PostsNotFoundException
-        return [post.to_entity() for post in post_iter]
+        return [post.to_entity() async for post in post_iter]
 
     async def count_many(self, search: Optional[str] = None) -> int | None:
-        count = await self.count_many(search)
+        count = await self.repository.count_many(search)
         if not count:
             raise PostsNotFoundException
         return count

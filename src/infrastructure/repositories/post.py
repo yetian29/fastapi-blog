@@ -89,7 +89,7 @@ class MongoPostRepository(IPostRepository):
     ) -> Optional[AsyncIterable[PostDto]]:
         query = self._build_find_query(search)
         cursor = (
-            self.collection.find(query)
+            await self.collection.find(query)
             .sort(sort_field, sort_order)
             .limit(limit)
             .skip(offset)
