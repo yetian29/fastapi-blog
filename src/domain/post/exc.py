@@ -1,4 +1,4 @@
-from src.domain.base.exc import BaseApplicationException
+from src.helper.exc import BaseApplicationException
 
 
 class BasePostException(BaseApplicationException):
