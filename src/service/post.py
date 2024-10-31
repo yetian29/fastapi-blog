@@ -43,7 +43,7 @@ class PostService(IPostService):
         offset: int,
         search: Optional[str] = None,
     ) -> Optional[list[Post]]:
-        post_iter = await self.repository.find_many(
+        post_iter = self.repository.find_many(
             sort_field, sort_order, limit, offset, search
         )
         if not post_iter:

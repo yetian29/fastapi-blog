@@ -67,10 +67,10 @@ async def get_post_views(
 
 
 def get_sort(
-    sort_field: PostSortFieldsEnum = PostSortFieldsEnum.oid.value,
+    sort_field: PostSortFieldsEnum = PostSortFieldsEnum.oid, # type: ignore
     sort_order: SortOrderEnum = SortOrderEnum.asc,
 ) -> SortQuery:  # type: ignore
-    return SortQuery(sort_field, sort_order)
+    return SortQuery(sort_field.name, sort_order)
 
 
 def get_pagination(page: int = 0, limit: int = 20) -> PaginationQuery:

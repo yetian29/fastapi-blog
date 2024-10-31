@@ -70,7 +70,7 @@ class MongoPostRepository(IPostRepository):
     async def delete(self, oid: str) -> None:
         await self.collection.delete_one({"oid": oid})
 
-    def _build_find_query(search: Optional[str] = None):
+    def _build_find_query(self, search: Optional[str] = None):
         query = {}
         if search:
             search_query = {
@@ -89,7 +89,7 @@ class MongoPostRepository(IPostRepository):
     ) -> Optional[AsyncIterable[PostDto]]:
         query = self._build_find_query(search)
         cursor = (
-            await self.collection.find(query)
+             self.collection.find(query)
             .sort(sort_field, sort_order)
             .limit(limit)
             .skip(offset)
