@@ -1,15 +1,6 @@
-from typing import Optional
+def fail(exc: Exception):
+    raise exc
 
 
-class BaseException(Exception):
-    def __init__(self, message: Optional[str] = None, *args) -> None:
-        self.message = message
-        super().__init__(message, *args)
-
-
-class BaseDomainException(BaseException):
-    pass
-
-
-class BaseApplicationException(BaseException):
+class BaseApplicationException(Exception):
     pass

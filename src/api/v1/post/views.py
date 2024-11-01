@@ -11,6 +11,9 @@ from src.domain.post.command import (
     DeletePostCommand,
     GetPostCommand,
     GetPostListCommand,
+    PaginationQuery,
+    SortOrderEnum,
+    SortQuery,
     UpdatePostCommand,
 )
 from src.domain.post.entities import PostSortFieldsEnum
@@ -21,7 +24,6 @@ from src.domain.post.use_case import (
     GetPostUseCase,
     UpdatePostUseCase,
 )
-from src.domain.post.value_object import PaginationQuery, SortOrderEnum, SortQuery
 
 router = APIRouter()
 

@@ -4,6 +4,7 @@ from typing import Optional
 from src.domain.post.entities import Post
 from src.domain.post.exc import PostNotFoundException, PostsNotFoundException
 from src.domain.post.services import IPostService
+from src.helper.exc import fail
 from src.infrastructure.dto.post import PostDto
 from src.infrastructure.repositories.post import IPostRepository
 
@@ -15,7 +16,7 @@ class PostService(IPostService):
     async def get_by_id(self, oid: str) -> Optional[Post]:
         dto = await self.repository.get_by_id(oid)
         if not dto:
-            raise PostNotFoundException
+            fail(PostNotFoundException)
         return dto.to_entity()
 
     async def create(self, post: Post) -> Post:
@@ -27,7 +28,7 @@ class PostService(IPostService):
         dto = PostDto.from_entity(post)
         dto = await self.repository.update(dto)
         if not dto:
-            raise PostNotFoundException
+            fail(PostNotFoundException)
         return dto.to_entity()
 
     async def delete(self, oid: str) -> Post:
@@ -47,11 +48,11 @@ class PostService(IPostService):
             sort_field, sort_order, limit, offset, search
         )
         if not post_iter:
-            raise PostsNotFoundException
+            fail(PostsNotFoundException)
         return [post.to_entity() async for post in post_iter]
 
     async def count_many(self, search: Optional[str] = None) -> int | None:
         count = await self.repository.count_many(search)
         if not count:
-            raise PostsNotFoundException
+            fail(PostsNotFoundException)
         return count
