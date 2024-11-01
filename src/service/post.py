@@ -2,11 +2,11 @@ from dataclasses import dataclass
 from typing import Optional
 
 from src.domain.post.entities import Post
-from src.domain.post.exc import PostNotFoundException, PostsNotFoundException
 from src.domain.post.services import IPostService
 from src.helper.exc import fail
 from src.infrastructure.dto.post import PostDto
 from src.infrastructure.repositories.post import IPostRepository
+from src.service.exc import PostNotFoundException, PostsNotFoundException
 
 
 @dataclass
