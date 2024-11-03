@@ -42,7 +42,7 @@ class IUserAuthRepository(ABC):
         pass
 
 
-class UserAuthRepository(IUserAuthRepository):
+class MongoUserAuthRepository(IUserAuthRepository):
     async def get_by_oid(self, oid: str) -> Optional[UserAuthDto]:
         doc = await self.collection.find_one({"oid": oid})
         return doc

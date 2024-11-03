@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
 from src.domain.user_auth.entities import UserAuth
-from src.domain.user_auth.services import ICodeService
+from src.domain.user_auth.services import ICodeService, ISendService
 from src.helper.exc import fail
 from src.service.exc import (
     CodeHasExpiredException,
@@ -51,3 +51,6 @@ class DummyCodeService(ICodeService):
                 del self.cache[user.email]
                 fail(CodeHasExpiredException)
             del self.cache[user.email]
+
+class DummySendService(ISendService):
+    pass
