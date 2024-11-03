@@ -27,13 +27,21 @@ class ILoginService(ABC):
 
 class IUserAuthService(ABC):
     @abstractmethod
-    def get_or_create(self, user: UserAuth) -> UserAuth:
+    async def get_by_oid(self, oid: str) -> UserAuth:
         pass
 
     @abstractmethod
-    def update(self, user: UserAuth) -> UserAuth:
+    async def get_or_create(self, user: UserAuth) -> UserAuth:
         pass
 
     @abstractmethod
-    def delete(self, oid: str) -> UserAuth:
+    async def create(self, user: UserAuth) -> UserAuth:
+        pass
+
+    @abstractmethod
+    async def update(self, user: UserAuth) -> UserAuth:
+        pass
+
+    @abstractmethod
+    async def delete(self, oid: str) -> UserAuth:
         pass

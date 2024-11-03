@@ -25,3 +25,7 @@ class CodesAreNotEqualException(BaseServiceException):
 
 class CodeHasExpiredException(BaseServiceException):
     pass
+
+
+class UserAuthIsNotFoundException(BaseServiceException):
+    pass

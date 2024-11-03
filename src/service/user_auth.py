@@ -1,16 +1,26 @@
 import pickle
 import random
+from dataclasses import dataclass
 from datetime import datetime, timedelta
+from uuid import uuid4
 
 from fastapi_cache import FastAPICache
 
 from src.domain.user_auth.entities import UserAuth
-from src.domain.user_auth.services import ICodeService, ISendService
+from src.domain.user_auth.services import (
+    ICodeService,
+    ILoginService,
+    ISendService,
+    IUserAuthService,
+)
 from src.helper.exc import fail
+from src.infrastructure.dto.user_auth import UserAuthDto
+from src.infrastructure.repositories.user_auth import IUserAuthRepository
 from src.service.exc import (
     CodeHasExpiredException,
     CodeIsNotFoundException,
     CodesAreNotEqualException,
+    UserAuthIsNotFoundException,
 )
 
 
@@ -63,3 +73,44 @@ class SendService(ISendService):
             )
         else:
             print(f"The code <{code}> has been send to email <{user.email}>")
+
+
+class LoginService(ILoginService):
+    def active_and_generate_token(self, user) -> str:
+        user.is_active = True
+        user.token = str(uuid4())
+        return user.token
+
+
+@dataclass(frozen=True)
+class UserAuthService(IUserAuthService):
+    repository: IUserAuthRepository
+
+    async def get_by_oid(self, oid: str) -> UserAuth:
+        dto = await self.repository.get_by_id(oid)
+        if not dto:
+            fail(UserAuthIsNotFoundException)
+        return dto.to_entity()
+
+    async def get_or_create(self, user: UserAuth) -> UserAuth:
+        dto = UserAuthDto.from_entity(user)
+        try:
+            return await self.get_by_oid(dto.oid)
+        except UserAuthIsNotFoundException:
+            return await self.create(user)
+
+    async def create(self, user: UserAuth) -> UserAuth:
+        dto = UserAuthDto.from_entity(user)
+        dto = await self.repository.create(dto)
+        return dto.to_entity()
+
+    async def update(self, user: UserAuth) -> UserAuth:
+        dto = UserAuthDto.from_entity(user)
+        dto = await self.repository.update(dto)
+        if not dto:
+            fail(UserAuthIsNotFoundException)
+        return dto.to_entity()
+
+    async def delete(self, oid: str) -> UserAuth:
+        await self.repository.delete(oid)
+        return await self.get_by_id(oid)
