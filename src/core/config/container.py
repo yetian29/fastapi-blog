@@ -10,13 +10,26 @@ from src.domain.post.use_case import (
     GetPostUseCase,
     UpdatePostUseCase,
 )
-from src.domain.user_auth.services import ICodeService, ILoginService, ISendService, IUserAuthService
+from src.domain.user_auth.services import (
+    ICodeService,
+    ILoginService,
+    ISendService,
+    IUserAuthService,
+)
 from src.domain.user_auth.use_case import AuthorizeUseAuthUseCase, LoginUserAuthUseCase
 from src.infrastructure.db import Database
 from src.infrastructure.repositories.post import IPostRepository, MongoPostRepository
-from src.infrastructure.repositories.user_auth import IUserAuthRepository, MongoUserAuthRepository
+from src.infrastructure.repositories.user_auth import (
+    IUserAuthRepository,
+    MongoUserAuthRepository,
+)
 from src.service.post import PostService
-from src.service.user_auth import CodeService, LoginService, SendService, UserAuthService
+from src.service.user_auth import (
+    CodeService,
+    LoginService,
+    SendService,
+    UserAuthService,
+)
 
 
 def init_container() -> punq.Container:

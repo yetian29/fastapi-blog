@@ -52,5 +52,6 @@ class DummyCodeService(ICodeService):
                 fail(CodeHasExpiredException)
             del self.cache[user.email]
 
+
 class DummySendService(ISendService):
     pass

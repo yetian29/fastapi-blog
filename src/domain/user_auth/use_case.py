@@ -33,6 +33,6 @@ class LoginUserAuthUseCase:
             phone_number=command.phone_number, email=command.email
         )
         await self.code_service.validate_code(user=user, code=command.code)
-        token  = await self.login_service.active_and_generate_token(user)
+        token = await self.login_service.active_and_generate_token(user)
         await self.user_auth_service.update(user)
         return token
