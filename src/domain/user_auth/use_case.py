@@ -1,7 +1,12 @@
 from dataclasses import dataclass
 
-from src.domain.user_auth.commands import AuthorizeUserAuthCommand
-from src.domain.user_auth.services import ICodeService, ISendService, IUserAuthService
+from src.domain.user_auth.commands import AuthorizeUserAuthCommand, LoginUserAuthCommand
+from src.domain.user_auth.services import (
+    ICodeService,
+    ILoginService,
+    ISendService,
+    IUserAuthService,
+)
 
 
 @dataclass(frozen=True)
@@ -11,4 +16,21 @@ class AuthorizeUseAuthUseCase:
     user_auth_service: IUserAuthService
 
     async def execute(self, command: AuthorizeUserAuthCommand) -> str:
-        pass
+        user = await self.user_auth_service.get_or_create(user=command.user)
+        code = await self.code_service.generate_code(user)
+        await self.send_service.send_code(user, code)
+        return code
+
+
+@dataclass(frozen=True)
+class LoginUserAuthUseCase:
+    code_service: ICodeService
+    login_service: ILoginService
+    user_auth_service: IUserAuthService
+
+    async def execute(self, command: LoginUserAuthCommand) -> str:
+        user = await self.user_auth_service.get_by_phone_number_or_email(
+            phone_number=command.phone_number, email=command.email
+        )
+        await self.code_service.validate_code(user=user, code=command.code)
+        return await self.login_service.active_and_generate_token(user)

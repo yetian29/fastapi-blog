@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from src.domain.user_auth.entities import UserAuth
 
@@ -10,8 +11,8 @@ class AuthorizeUserAuthCommand:
 
 @dataclass(frozen=True)
 class LoginUserAuthCommand:
-    phone_number: str
-    email: str
+    phone_number: Optional[str]
+    email: Optional[str]
     code: str
 
 

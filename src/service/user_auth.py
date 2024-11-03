@@ -28,9 +28,9 @@ class CodeService(ICodeService):
     cache = FastAPICache.get_backend()
 
     def generate_code(self, user: UserAuth) -> str:
-        code = random.randint(100000, 999999)
-        ttl = timedelta(minutes=1)
-        cached_data = {"code": code, "ttl": datetime.now() + ttl}
+        code = str(random.randint(100000, 999999))
+        time_out = timedelta(minutes=1)
+        cached_data = {"code": code, "ttl": datetime.now() + time_out}
         cached_data = pickle.dumps(cached_data)  # convert data dict to bytes
         if user.phone_number:
             self.cache.set(user.phone_number, cached_data)
@@ -87,15 +87,27 @@ class UserAuthService(IUserAuthService):
     repository: IUserAuthRepository
 
     async def get_by_oid(self, oid: str) -> UserAuth:
-        dto = await self.repository.get_by_id(oid)
+        dto = await self.repository.get_by_oid(oid)
+        if not dto:
+            fail(UserAuthIsNotFoundException)
+        return dto.to_entity()
+
+    async def get_by_phone_number_or_email(
+        self, phone_number: str, email: str
+    ) -> UserAuth:
+        if phone_number:
+            dto = await self.repository.get_by_phone_number(phone_number)
+        else:
+            dto = await self.repository.get_by_email(email)
         if not dto:
             fail(UserAuthIsNotFoundException)
         return dto.to_entity()
 
     async def get_or_create(self, user: UserAuth) -> UserAuth:
-        dto = UserAuthDto.from_entity(user)
         try:
-            return await self.get_by_oid(dto.oid)
+            return await self.get_by_phone_number_or_email(
+                phone_number=user.phone_number, email=user.email
+            )
         except UserAuthIsNotFoundException:
             return await self.create(user)
 
@@ -113,4 +125,4 @@ class UserAuthService(IUserAuthService):
 
     async def delete(self, oid: str) -> UserAuth:
         await self.repository.delete(oid)
-        return await self.get_by_id(oid)
+        return await self.get_by_oid(oid)

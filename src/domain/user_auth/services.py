@@ -31,6 +31,12 @@ class IUserAuthService(ABC):
         pass
 
     @abstractmethod
+    async def get_by_phone_number_or_email(
+        self, phone_number: str, email: str
+    ) -> UserAuth:
+        pass
+
+    @abstractmethod
     async def get_or_create(self, user: UserAuth) -> UserAuth:
         pass
 
