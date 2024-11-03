@@ -13,6 +13,8 @@ class UserAuthDto(BaseDto):
 
     @staticmethod
     def load(data: Optional[dict]) -> "UserAuthDto":
+        if not data:
+            return None
         return UserAuthDto(
             oid=data.get("oid"),
             phone_number=data.get("phone_number"),

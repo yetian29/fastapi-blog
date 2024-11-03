@@ -45,15 +45,15 @@ class IUserAuthRepository(ABC):
 class MongoUserAuthRepository(IUserAuthRepository):
     async def get_by_oid(self, oid: str) -> Optional[UserAuthDto]:
         doc = await self.collection.find_one({"oid": oid})
-        return doc
+        return UserAuthDto.load(doc)
 
     async def get_by_phone_number(self, phone_number: str) -> Optional[UserAuthDto]:
         doc = await self.collection.find_one({"phone_number": phone_number})
-        return doc
+        return UserAuthDto.load(doc)
 
     async def get_by_email(self, email: str) -> Optional[UserAuthDto]:
         doc = await self.collection.find_one({"email": email})
-        return doc
+        return UserAuthDto.load(doc)
 
     async def create(self, user: UserAuthDto) -> UserAuthDto:
         doc = await self.collection.insert_one(user.dump())
