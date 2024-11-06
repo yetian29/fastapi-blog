@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Optional
 
 from src.domain.user_auth.entities import UserAuth
 
@@ -32,7 +33,7 @@ class IUserAuthService(ABC):
 
     @abstractmethod
     async def get_by_phone_number_or_email(
-        self, phone_number: str, email: str
+        self, phone_number: Optional[str], email: Optional[str]
     ) -> UserAuth:
         pass
 

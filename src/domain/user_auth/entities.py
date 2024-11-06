@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 from typing import Optional
-from xml.dom.minidom import Entity
+
+from src.domain.base.entities import BaseEntity
 
 
 @dataclass
-class UserAuth(Entity):
+class UserAuth(BaseEntity):
     phone_number: Optional[str]
     email: Optional[str]
-    token: str
-    is_active: bool
+    token: Optional[str]
+    is_active: bool = False
