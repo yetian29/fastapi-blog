@@ -16,6 +16,7 @@ from src.service.exc import (
     CodeHasExpiredException,
     CodeIsNotFoundException,
     CodesAreNotEqualException,
+    UserAuthIsNotFoundException,
 )
 from test.mock.factory.user_auth import UserAuthFactory
 
@@ -67,9 +68,9 @@ class DummyUserAuthService(IUserAuthService):
     async def get_by_phone_number_or_email(
         self, phone_number: Optional[str], email: Optional[str]
     ) -> UserAuth:
-        return UserAuthFactory.build(
-            phone_number=phone_number
-        ) or UserAuthFactory.build(email=email)
+        if phone_number:
+            return UserAuthFactory.build(phone_number=phone_number)
+        return UserAuthFactory.build(email=email)
 
     async def create(self, user: UserAuth) -> UserAuth:
         user.oid = str(uuid4())
@@ -78,10 +79,12 @@ class DummyUserAuthService(IUserAuthService):
         return user
 
     async def get_or_create(self, user: UserAuth) -> UserAuth:
-        data = self.get_by_phone_number_or_email(
-            phone_number=user.phone_number, email=user.email
-        )
-        return data if data else self.create(user)
+        try:
+            return await self.get_by_phone_number_or_email(
+                phone_number=user.phone_number, email=user.email
+            )
+        except UserAuthIsNotFoundException:
+            return await self.create(user)
 
     async def update(self, user: UserAuth) -> UserAuth:
         return user
