@@ -13,7 +13,6 @@ class AuthorizeInSchema(BaseModel):
     def validate_phone_number(cls, value: Optional[str] = None) -> Optional[str]:
         if not value:
             return None
-        value = value.strip()
         if not value.isdigit():
             raise ValueError("Invalid phone number. The phone number must be numbers")
         elif len(value) != 10:
@@ -25,7 +24,6 @@ class AuthorizeInSchema(BaseModel):
     def validate_email(cls, value: Optional[str] = None) -> Optional[str]:
         if not value:
             return None
-        value = value.strip()
         pattern = r"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$"
         if not re.match(pattern, value):
             raise ValueError(
