@@ -11,7 +11,7 @@ from src.api.v1.routers import router as api_router
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
-    redis = aioredis.from_url("redis://localhost")
+    redis = aioredis.from_url("redis://redis")
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
     yield
 
