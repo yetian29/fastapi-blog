@@ -7,7 +7,7 @@ from src.domain.review.entitties import Review
 from src.infrastructure.dto.base import BaseDto
 
 
-@dataclass(frozen=True)
+@dataclass
 class ReviewDto(BaseDto):
     oid: Optional[str]
     post_id: Optional[str]
@@ -19,7 +19,7 @@ class ReviewDto(BaseDto):
 
     def __post_init__(self):
         if not self.oid and not self.created_at and not self.updated_at:
-            self.oid = str(uuid4)
+            self.oid = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 

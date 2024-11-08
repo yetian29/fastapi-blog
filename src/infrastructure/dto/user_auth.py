@@ -7,7 +7,7 @@ from src.domain.user_auth.entities import UserAuth
 from src.infrastructure.dto.base import BaseDto
 
 
-@dataclass(frozen=True)
+@dataclass
 class UserAuthDto(BaseDto):
     oid: Optional[str]
     phone_number: Optional[str]

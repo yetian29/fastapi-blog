@@ -7,7 +7,7 @@ from src.domain.post.entities import Post
 from src.infrastructure.dto.base import BaseDto
 
 
-@dataclass(frozen=True)
+@dataclass
 class PostDto(BaseDto):
     oid: Optional[str]
     title: str
@@ -17,7 +17,7 @@ class PostDto(BaseDto):
 
     def __post_init__(self):
         if not self.oid and not self.created_at and not self.updated_at:
-            self.oid = str(uuid4)
+            self.oid = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
