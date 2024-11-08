@@ -38,6 +38,10 @@ class IUserAuthService(ABC):
         pass
 
     @abstractmethod
+    async def get_by_token(self, token: str) -> UserAuth:
+        pass
+
+    @abstractmethod
     async def get_or_create(self, user: UserAuth) -> UserAuth:
         pass
 

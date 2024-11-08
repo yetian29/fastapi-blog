@@ -88,6 +88,12 @@ class UserAuthService(IUserAuthService):
             fail(UserAuthIsNotFoundException)
         return dto.to_entity()
 
+    async def get_by_token(self, token: str) -> UserAuth:
+        dto = await self.repository.get_by_token(token)
+        if not dto:
+            fail(UserAuthIsNotFoundException)
+        return dto.to_entity()
+
     async def get_or_create(self, user: UserAuth) -> UserAuth:
         try:
             return await self.get_by_phone_number_or_email(

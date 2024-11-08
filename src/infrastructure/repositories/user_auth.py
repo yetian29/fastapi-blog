@@ -30,6 +30,10 @@ class IUserAuthRepository(ABC):
         pass
 
     @abstractmethod
+    async def get_by_token(self, token: str) -> Optional[UserAuthDto]:
+        pass
+
+    @abstractmethod
     async def create(self, user: UserAuthDto) -> UserAuthDto:
         pass
 
@@ -53,6 +57,10 @@ class MongoUserAuthRepository(IUserAuthRepository):
 
     async def get_by_email(self, email: str) -> Optional[UserAuthDto]:
         doc = await self.collection.find_one({"email": email})
+        return UserAuthDto.load(doc)
+
+    async def get_by_token(self, token: str) -> Optional[UserAuthDto]:
+        doc = await self.collection.find_one({"token": token})
         return UserAuthDto.load(doc)
 
     async def create(self, user: UserAuthDto) -> UserAuthDto:

@@ -24,7 +24,12 @@ from src.domain.user_auth.services import (
     ISendService,
     IUserAuthService,
 )
-from src.domain.user_auth.use_case import AuthorizeUseAuthUseCase, LoginUserAuthUseCase
+from src.domain.user_auth.use_case import (
+    AuthorizeUseAuthUseCase,
+    DeleteUserAuthUseCase,
+    GetUserAuthUseCase,
+    LoginUserAuthUseCase,
+)
 from src.infrastructure.db import Database
 from src.infrastructure.repositories.post import IPostRepository, MongoPostRepository
 from src.infrastructure.repositories.review import (
@@ -67,6 +72,8 @@ def init_container() -> punq.Container:
     container.register(IUserAuthService, UserAuthService)
     container.register(AuthorizeUseAuthUseCase)
     container.register(LoginUserAuthUseCase)
+    container.register(DeleteUserAuthUseCase)
+    container.register(GetUserAuthUseCase)
 
     # Register Post
     container.register(IPostRepository, MongoPostRepository)

@@ -1,6 +1,12 @@
 from dataclasses import dataclass
 
-from src.domain.user_auth.commands import AuthorizeUserAuthCommand, LoginUserAuthCommand
+from src.domain.user_auth.commands import (
+    AuthorizeUserAuthCommand,
+    DeleteUserAuthCommand,
+    GetUserAuthCommand,
+    LoginUserAuthCommand,
+)
+from src.domain.user_auth.entities import UserAuth
 from src.domain.user_auth.services import (
     ICodeService,
     ILoginService,
@@ -36,3 +42,19 @@ class LoginUserAuthUseCase:
         token = self.login_service.active_and_generate_token(user)
         await self.user_auth_service.update(user)
         return token
+
+
+@dataclass(frozen=True)
+class DeleteUserAuthUseCase:
+    user_auth_service: IUserAuthService
+
+    async def execute(self, command: DeleteUserAuthCommand) -> UserAuth:
+        return await self.user_auth_service.delete(oid=command.oid)
+
+
+@dataclass(frozen=True)
+class GetUserAuthUseCase:
+    user_auth_service: IUserAuthService
+
+    async def execute(self, command: GetUserAuthCommand) -> UserAuth:
+        return await self.user_auth_service.get_by_token(token=command.token)

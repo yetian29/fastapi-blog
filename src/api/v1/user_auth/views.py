@@ -5,12 +5,21 @@ from src.api.v1.schemas import ApiResponse
 from src.api.v1.user_auth.schemas import (
     AuthorizeInSchema,
     AuthorizeOutSchema,
+    DeleteOutSchema,
     LoginInSchema,
     LoginOutSchema,
 )
 from src.core.config.container import get_container
-from src.domain.user_auth.commands import AuthorizeUserAuthCommand, LoginUserAuthCommand
-from src.domain.user_auth.use_case import AuthorizeUseAuthUseCase, LoginUserAuthUseCase
+from src.domain.user_auth.commands import (
+    AuthorizeUserAuthCommand,
+    DeleteUserAuthCommand,
+    LoginUserAuthCommand,
+)
+from src.domain.user_auth.use_case import (
+    AuthorizeUseAuthUseCase,
+    DeleteUserAuthUseCase,
+    LoginUserAuthUseCase,
+)
 
 router = APIRouter()
 
@@ -42,3 +51,13 @@ async def login_user_auth_views(
     use_case: LoginUserAuthUseCase = container.resolve(LoginUserAuthUseCase)
     token = await use_case.execute(command)
     return ApiResponse(data=LoginOutSchema(token=token))
+
+
+@router.delete("/{oid}", response_model=ApiResponse[DeleteOutSchema])
+async def delete_user_auth_views(
+    oid: str, container: punq.Container = Depends(get_container)
+) -> ApiResponse[DeleteOutSchema]:
+    command = DeleteUserAuthCommand(oid)
+    use_case: DeleteUserAuthUseCase = container.resolve(DeleteUserAuthUseCase)
+    user_auth = await use_case.execute(command)
+    return ApiResponse(data=DeleteOutSchema.from_entity(user_auth))

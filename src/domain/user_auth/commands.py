@@ -19,3 +19,8 @@ class LoginUserAuthCommand:
 @dataclass(frozen=True)
 class DeleteUserAuthCommand:
     oid: str
+
+
+@dataclass(frozen=True)
+class GetUserAuthCommand:
+    token: str

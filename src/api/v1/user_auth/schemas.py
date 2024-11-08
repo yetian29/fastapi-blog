@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, field_validator, model_validator
@@ -61,3 +62,23 @@ class LoginInSchema(BaseValidate):
 
 class LoginOutSchema(BaseModel):
     token: str
+
+
+class DeleteOutSchema(BaseModel):
+    oid: str
+    phone_number: Optional[str]
+    email: Optional[str]
+    token: str
+    created_at: datetime
+    updated_at: datetime
+
+    @staticmethod
+    def from_entity(entity: UserAuth) -> "DeleteOutSchema":
+        return DeleteOutSchema(
+            oid=entity.oid,
+            phone_number=entity.phone_number,
+            email=entity.email,
+            token=entity.token,
+            created_at=entity.created_at,
+            updated_at=entity.updated_at,
+        )
