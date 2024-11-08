@@ -33,7 +33,7 @@ class ReviewInSchema(BaseModel):
         return Review(rating=self.rating, content=self.content, **kwargs)
 
 
-class ReviewOutSchema:
+class ReviewOutSchema(BaseModel):
     oid: str
     post_id: str
     author_id: str
@@ -52,7 +52,3 @@ class ReviewOutSchema:
             created_at=entity.created_at,
             updated_at=entity.updated_at,
         )
-
-
-class CreateReviewInSchema:
-    post_id: str

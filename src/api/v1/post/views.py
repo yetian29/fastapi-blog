@@ -7,13 +7,13 @@ from fastapi import APIRouter, Depends
 from src.api.v1.post.schemas import PostInSchema, PostOutSchema
 from src.api.v1.schemas import ApiResponse, ListPaginatedResponse, PaginationOutSchema
 from src.core.config.container import get_container
+from src.domain.base.commands import SortOrderEnum
 from src.domain.post.command import (
     CreatePostCommand,
     DeletePostCommand,
     GetPostCommand,
     GetPostListCommand,
     PaginationQuery,
-    SortOrderEnum,
     SortQuery,
     UpdatePostCommand,
 )

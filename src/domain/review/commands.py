@@ -15,8 +15,8 @@ class UpdateReviewCommand:
     review: Review
 
 
-@dataclass
-class DeleteReviewCommand(frozen=True):
+@dataclass(frozen=True)
+class DeleteReviewCommand:
     oid: str
 
 
