@@ -29,7 +29,7 @@ class BaseValidate(BaseModel):
         pattern = r"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$"
         if not re.match(pattern, value):
             raise ValueError(
-                "Invalid email format. Email must be the format 'example@example.com'."
+                "Invalid email format. Email must be the format 'example@gmail.com'."
             )
         return value
 
