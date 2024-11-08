@@ -25,7 +25,7 @@ from test.mock.factory.user_auth import UserAuthFactory
 class DummyCodeService(ICodeService):
     cache: dict[str, dict] = field(default_factory=dict)
 
-    def generate_code(self, user: UserAuth) -> str:
+    async def generate_code(self, user: UserAuth) -> str:
         code = str(random.randint(100000, 999999))
         time_out = timedelta(minutes=1)
         cached_data = {"code": code, "ttl": datetime.now() + time_out}
@@ -33,7 +33,7 @@ class DummyCodeService(ICodeService):
         self.cache[key] = cached_data
         return code
 
-    def validate_code(self, user: UserAuth, code: str) -> None:
+    async def validate_code(self, user: UserAuth, code: str) -> None:
         key = user.phone_number if user.phone_number else user.email
         cached_data = self.cache.get(key)
         if not cached_data:

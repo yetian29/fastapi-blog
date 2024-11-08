@@ -3,8 +3,10 @@ from typing import Optional
 
 from pydantic import BaseModel, field_validator, model_validator
 
+from src.domain.user_auth.entities import UserAuth
 
-class AuthorizeInSchema(BaseModel):
+
+class BaseValidate(BaseModel):
     phone_number: Optional[str] = None
     email: Optional[str] = None
 
@@ -13,7 +15,7 @@ class AuthorizeInSchema(BaseModel):
     def validate_phone_number(cls, value: Optional[str] = None) -> Optional[str]:
         if not value:
             return None
-        if not value.isdigit():
+        elif not value.isdigit():
             raise ValueError("Invalid phone number. The phone number must be numbers")
         elif len(value) != 10:
             raise ValueError("Invalid phone number. The phone number must be 10 number")
@@ -37,12 +39,25 @@ class AuthorizeInSchema(BaseModel):
             raise ValueError(
                 "Invalid login. You must log in with phone number or email."
             )
-        if self.phone_number and self.email:
+        elif self.phone_number and self.email:
             raise ValueError(
                 "Invalid login. Not allowed to log in both phone number and email."
             )
         return self
 
 
+class AuthorizeInSchema(BaseValidate):
+    def to_entity(self) -> UserAuth:
+        return UserAuth(phone_number=self.phone_number, email=self.email)
+
+
 class AuthorizeOutSchema(BaseModel):
     msg: str
+
+
+class LoginInSchema(BaseValidate):
+    code: str
+
+
+class LoginOutSchema(BaseModel):
+    token: str

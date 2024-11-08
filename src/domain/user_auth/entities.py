@@ -6,7 +6,7 @@ from src.domain.base.entities import BaseEntity
 
 @dataclass
 class UserAuth(BaseEntity):
-    phone_number: Optional[str]
-    email: Optional[str]
-    token: Optional[str]
+    phone_number: Optional[str] = None
+    email: Optional[str] = None
+    token: Optional[str] = None
     is_active: bool = False

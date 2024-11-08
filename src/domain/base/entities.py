@@ -5,6 +5,6 @@ from typing import Optional
 
 @dataclass
 class BaseEntity:
-    oid: Optional[str]
-    created_at: Optional[datetime]
-    updated_at: Optional[datetime]
+    oid: Optional[str] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None

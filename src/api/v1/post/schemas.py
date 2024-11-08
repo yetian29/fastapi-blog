@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 
 from pydantic import BaseModel, field_validator, model_validator
 
@@ -30,15 +29,10 @@ class PostInSchema(BaseModel):
             raise ValueError("Invalid. Title and Content are required.")
         return self
 
-    def to_entity(
-        self, oid: Optional[str] = None, created_at=None, updated_at=None
-    ) -> Post:
+    def to_entity(self) -> Post:
         return Post(
-            oid=oid,
             title=self.title,
             content=self.content,
-            created_at=created_at,
-            updated_at=updated_at,
         )
 
 

@@ -6,11 +6,11 @@ from src.domain.user_auth.entities import UserAuth
 
 class ICodeService(ABC):
     @abstractmethod
-    def generate_code(self, user: UserAuth) -> str:
+    async def generate_code(self, user: UserAuth) -> str:
         pass
 
     @abstractmethod
-    def validate_code(self, user: UserAuth, code: str) -> None:
+    async def validate_code(self, user: UserAuth, code: str) -> None:
         pass
 
 

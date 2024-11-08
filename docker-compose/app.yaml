@@ -15,6 +15,7 @@ services:
       - ../src/:/app/src/
     depends_on:
     - mongodb
+    - redis
     networks:
       - backend
 

@@ -17,7 +17,7 @@ class AuthorizeUseAuthUseCase:
 
     async def execute(self, command: AuthorizeUserAuthCommand) -> str:
         user = await self.user_auth_service.get_or_create(user=command.user)
-        code = self.code_service.generate_code(user)
+        code = await self.code_service.generate_code(user)
         self.send_service.send_code(user, code)
         return code
 
@@ -32,7 +32,7 @@ class LoginUserAuthUseCase:
         user = await self.user_auth_service.get_by_phone_number_or_email(
             phone_number=command.phone_number, email=command.email
         )
-        self.code_service.validate_code(user=user, code=command.code)
+        await self.code_service.validate_code(user=user, code=command.code)
         token = self.login_service.active_and_generate_token(user)
         await self.user_auth_service.update(user)
         return token
