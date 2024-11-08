@@ -29,3 +29,14 @@ class CodeHasExpiredException(BaseServiceException):
 
 class UserAuthIsNotFoundException(BaseServiceException):
     pass
+
+
+# Review
+
+
+class ReviewIsNotFoundException(BaseServiceException):
+    pass
+
+
+class ReviewsIsNotFoundException(BaseServiceException):
+    pass

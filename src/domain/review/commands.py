@@ -7,13 +7,11 @@ from src.domain.review.entitties import Review
 
 @dataclass(frozen=True)
 class CreateReviewCommand:
-    post_id: str
     review: Review
 
 
 @dataclass(frozen=True)
 class UpdateReviewCommand:
-    post_id: str
     review: Review
 
 

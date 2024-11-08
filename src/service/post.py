@@ -13,7 +13,7 @@ from src.service.exc import PostNotFoundException, PostsNotFoundException
 class PostService(IPostService):
     repository: IPostRepository
 
-    async def get_by_id(self, oid: str) -> Optional[Post]:
+    async def get_by_id(self, oid: str) -> Post:
         dto = await self.repository.get_by_id(oid)
         if not dto:
             fail(PostNotFoundException)
@@ -43,7 +43,7 @@ class PostService(IPostService):
         limit: int,
         offset: int,
         search: Optional[str] = None,
-    ) -> Optional[list[Post]]:
+    ) -> list[Post]:
         post_iter = self.repository.find_many(
             sort_field, sort_order, limit, offset, search
         )
@@ -51,7 +51,7 @@ class PostService(IPostService):
             fail(PostsNotFoundException)
         return [post.to_entity() async for post in post_iter]
 
-    async def count_many(self, search: Optional[str] = None) -> int | None:
+    async def count_many(self, search: Optional[str] = None) -> int:
         count = await self.repository.count_many(search)
         if not count:
             fail(PostsNotFoundException)

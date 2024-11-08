@@ -9,11 +9,11 @@ class IReviewService(ABC):
         pass
 
     @abstractmethod
-    async def create(self, post_id: str, review: Review) -> Review:
+    async def create(self, review: Review) -> Review:
         pass
 
     @abstractmethod
-    async def update(self, post_id: str, review: Review) -> Review:
+    async def update(self, review: Review) -> Review:
         pass
 
     @abstractmethod

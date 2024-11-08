@@ -29,9 +29,9 @@ class IPostService(ABC):
         limit: int,
         offset: int,
         search: Optional[str] = None,
-    ) -> Optional[list[Post]]:
+    ) -> list[Post]:
         pass
 
     @abstractmethod
-    async def count_many(self, search: Optional[str] = None) -> Optional[int]:
+    async def count_many(self, search: Optional[str] = None) -> int:
         pass

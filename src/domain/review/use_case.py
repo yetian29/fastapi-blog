@@ -17,7 +17,7 @@ class CreateReviewUseCase:
     service: IReviewService
 
     async def execute(self, command: CreateReviewCommand) -> Review:
-        return await self.service.create(post_id=command.post_id, review=command.review)
+        return await self.service.create(review=command.review)
 
 
 @dataclass(frozen=True)
@@ -25,7 +25,7 @@ class UpdateReviewUseCase:
     service: IReviewService
 
     async def execute(self, command: UpdateReviewCommand) -> Review:
-        return await self.service.update(post_id=command.post_id, review=command.review)
+        return await self.service.update(review=command.review)
 
 
 @dataclass(frozen=True)

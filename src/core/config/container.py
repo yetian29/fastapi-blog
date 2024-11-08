@@ -10,6 +10,14 @@ from src.domain.post.use_case import (
     GetPostUseCase,
     UpdatePostUseCase,
 )
+from src.domain.review.service import IReviewService
+from src.domain.review.use_case import (
+    CreateReviewUseCase,
+    DeleteReviewUseCase,
+    GetReviewListUseCase,
+    GetReviewUseCase,
+    UpdateReviewUseCase,
+)
 from src.domain.user_auth.services import (
     ICodeService,
     ILoginService,
@@ -19,11 +27,16 @@ from src.domain.user_auth.services import (
 from src.domain.user_auth.use_case import AuthorizeUseAuthUseCase, LoginUserAuthUseCase
 from src.infrastructure.db import Database
 from src.infrastructure.repositories.post import IPostRepository, MongoPostRepository
+from src.infrastructure.repositories.review import (
+    IReviewRepository,
+    MongoReviewRepository,
+)
 from src.infrastructure.repositories.user_auth import (
     IUserAuthRepository,
     MongoUserAuthRepository,
 )
 from src.service.post import PostService
+from src.service.review import ReviewService
 from src.service.user_auth import (
     CodeService,
     LoginService,
@@ -36,6 +49,15 @@ def init_container() -> punq.Container:
     container = punq.Container()
 
     container.register(Database, scope=punq.Scope.singleton)
+
+    # Review
+    container.register(IReviewRepository, MongoReviewRepository)
+    container.register(IReviewService, ReviewService)
+    container.register(CreateReviewUseCase)
+    container.register(UpdateReviewUseCase)
+    container.register(DeleteReviewUseCase)
+    container.register(GetReviewUseCase)
+    container.register(GetReviewListUseCase)
 
     # Register User Auth
     container.register(IUserAuthRepository, MongoUserAuthRepository)
