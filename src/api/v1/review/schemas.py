@@ -25,7 +25,7 @@ class ReviewInSchema(BaseModel):
             raise ValueError("Invalid content. Content is required.")
         elif len(value) > 1024:
             raise ValueError(
-                "Invalid content. Content has to be less than 1024 characters"
+                "Invalid content. Content has to be less than or equal 1024 characters"
             )
         return value
 

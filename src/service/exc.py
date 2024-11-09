@@ -40,3 +40,10 @@ class ReviewIsNotFoundException(BaseServiceException):
 
 class ReviewsIsNotFoundException(BaseServiceException):
     pass
+
+
+# User Profile
+
+
+class UserProfileIsNotFoundException(BaseServiceException):
+    pass

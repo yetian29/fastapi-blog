@@ -15,7 +15,9 @@ class PostInSchema(BaseModel):
             raise ValueError("InValid title. Title is required.")
         value = value.strip()
         if len(value) > 128:
-            raise ValueError("Invalid title. Title must be less than 128 characters.")
+            raise ValueError(
+                "Invalid title. Title must be less than or equal 128 characters."
+            )
         return value
 
     @field_validator("content")
@@ -25,7 +27,7 @@ class PostInSchema(BaseModel):
         value = value.strip()
         if len(value) > 1024:
             raise ValueError(
-                "Invalid content. Content must be less than 1024 characters."
+                "Invalid content. Content must be less than or equal 1024 characters."
             )
         return value
 

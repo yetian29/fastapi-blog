@@ -7,6 +7,6 @@ from src.domain.user_profile.value_object import NotLoaded
 
 @dataclass
 class UserProfile(BaseEntity):
-    username: str = ""
+    user_name: str = ""
     date_of_birth: str = ""
     user: UserAuth | NotLoaded = field(default_factory=NotLoaded)

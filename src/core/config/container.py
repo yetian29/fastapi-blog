@@ -31,6 +31,12 @@ from src.domain.user_auth.use_case import (
     LoginUserAuthUseCase,
     UpdateUserAuthUseCase,
 )
+from src.domain.user_profile.service import IUserProfileService
+from src.domain.user_profile.use_case import (
+    CreateUserProfileUseCase,
+    GetUserProfileUseCase,
+    UpdateUserProfileUseCase,
+)
 from src.infrastructure.db import Database
 from src.infrastructure.repositories.post import IPostRepository, MongoPostRepository
 from src.infrastructure.repositories.review import (
@@ -41,6 +47,10 @@ from src.infrastructure.repositories.user_auth import (
     IUserAuthRepository,
     MongoUserAuthRepository,
 )
+from src.infrastructure.repositories.user_profile import (
+    IUserProfileRepository,
+    MongoUserProfileRepository,
+)
 from src.service.post import PostService
 from src.service.review import ReviewService
 from src.service.user_auth import (
@@ -49,12 +59,20 @@ from src.service.user_auth import (
     SendService,
     UserAuthService,
 )
+from src.service.user_profile import UserProfileService
 
 
 def init_container() -> punq.Container:
     container = punq.Container()
 
     container.register(Database, scope=punq.Scope.singleton)
+
+    # User Profile
+    container.register(IUserProfileRepository, MongoUserProfileRepository)
+    container.register(IUserProfileService, UserProfileService)
+    container.register(CreateUserProfileUseCase)
+    container.register(UpdateUserProfileUseCase)
+    container.register(GetUserProfileUseCase)
 
     # Review
     container.register(IReviewRepository, MongoReviewRepository)

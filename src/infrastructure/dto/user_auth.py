@@ -17,7 +17,7 @@ class UserAuthDto(BaseDto):
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if not self.oid and not self.created_at and not self.updated_at:
             self.oid = str(uuid4())
             self.created_at = datetime.now()
