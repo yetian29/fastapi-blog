@@ -66,7 +66,7 @@ class LoginOutSchema(BaseModel):
 
 class UserAuthInSchema(BaseValidate):
     def to_entity(self, **kwargs) -> UserAuth:
-        return UserAuth(phone_number=self.phone_number, email=self.email)
+        return UserAuth(**kwargs)
 
 
 class UserAuthOutSchema(BaseModel):

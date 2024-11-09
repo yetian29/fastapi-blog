@@ -92,11 +92,13 @@ async def update_user_auth_views(
             oid=user_auth.oid,
             phone_number=user_auth.phone_number,
             email=user_auth.email,
+            token=user_auth.token,
             is_active=user_auth.is_active,
             created_at=user_auth.created_at,
             updated_at=datetime.now(),
         )
     )
+    print("Command2 -> User: ", command2.user)
     use_case2: UpdateUserAuthUseCase = container.resolve(UpdateUserAuthUseCase)
     updated_user_auth = await use_case2.execute(command2)
     return ApiResponse(data=UserAuthOutSchema.from_entity(updated_user_auth))
