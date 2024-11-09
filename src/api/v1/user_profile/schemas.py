@@ -28,9 +28,9 @@ class UserProfileInSchema(BaseModel):
         if not value:
             raise ValueError("Invalid date of birth. Date of birth is required.")
         value = value.strip()
-        if len(value) != 10:
+        if len(value) > 10:
             raise ValueError(
-                "Invalid date of birth . Date of birth has to be equal 10 character."
+                "Invalid date of birth . Date of birth has to be less than or equal 10 character."
             )
         return value
 
