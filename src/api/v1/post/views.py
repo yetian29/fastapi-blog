@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 import punq
@@ -42,10 +43,17 @@ async def create_post_views(
 async def update_post_views(
     oid: str, post_in: PostInSchema, container: punq.Container = Depends(get_container)
 ) -> ApiResponse[PostOutSchema]:
-    command = UpdatePostCommand(post=post_in.to_entity(oid=oid))
-    use_case: UpdatePostUseCase = container.resolve(UpdatePostUseCase)
-    post = await use_case.execute(command)
-    return ApiResponse(data=PostOutSchema.from_entity(post))
+    command1 = GetPostCommand(oid)
+    use_case1: GetPostUseCase = container.resolve(GetPostUseCase)
+    post = await use_case1.execute(command1)
+    command2 = UpdatePostCommand(
+        post=post_in.to_entity(
+            oid=oid, created_at=post.created_at, updated_at=datetime.now()
+        )
+    )
+    use_case2: UpdatePostUseCase = container.resolve(UpdatePostUseCase)
+    updated_post = await use_case2.execute(command2)
+    return ApiResponse(data=PostOutSchema.from_entity(updated_post))
 
 
 @router.delete("/{oid}", response_model=ApiResponse[PostOutSchema])
