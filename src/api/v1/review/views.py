@@ -63,7 +63,7 @@ async def update_review_views(
     review = await use_case2.execute(command2)
 
     if user_auth.oid != review.author_id:
-        raise ValueError("Invalide user.")
+        raise ValueError("Invalid user.")
 
     command3 = UpdateReviewCommand(
         review=review_in.to_entity(
@@ -92,7 +92,7 @@ async def delete_review_views(
     use_case: GetReviewUseCase = container.resolve(GetReviewUseCase)
     review = await use_case.execute(command2)
     if user_auth.oid != review.author_id:
-        raise ValueError("Invalude user.")
+        raise ValueError("Invalid user.")
     command3 = DeleteReviewCommand(oid)
     use_case3: DeleteReviewUseCase = container.resolve(DeleteReviewUseCase)
     deleted_review = await use_case3.execute(command3)
