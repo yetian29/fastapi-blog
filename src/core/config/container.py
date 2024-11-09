@@ -29,6 +29,7 @@ from src.domain.user_auth.use_case import (
     DeleteUserAuthUseCase,
     GetUserAuthUseCase,
     LoginUserAuthUseCase,
+    UpdateUserAuthUseCase,
 )
 from src.infrastructure.db import Database
 from src.infrastructure.repositories.post import IPostRepository, MongoPostRepository
@@ -74,6 +75,7 @@ def init_container() -> punq.Container:
     container.register(LoginUserAuthUseCase)
     container.register(DeleteUserAuthUseCase)
     container.register(GetUserAuthUseCase)
+    container.register(UpdateUserAuthUseCase)
 
     # Register Post
     container.register(IPostRepository, MongoPostRepository)

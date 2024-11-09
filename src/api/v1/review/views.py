@@ -32,7 +32,7 @@ router = APIRouter()
 async def create_review_views(
     post_id: str,
     review_in: ReviewInSchema,
-    token: str = Header(alias="Auth-token"),
+    token: str = Header(alias="Auth-Token"),
     container: punq.Container = Depends(get_container),
 ) -> ApiResponse[ReviewOutSchema]:
     command1 = GetUserAuthCommand(token)
@@ -51,7 +51,7 @@ async def create_review_views(
 async def update_review_views(
     oid: str,
     review_in: ReviewInSchema,
-    token: str = Header(alias="Auth-token"),
+    token: str = Header(alias="Auth-Token"),
     container: punq.Container = Depends(get_container),
 ) -> ApiResponse[ReviewOutSchema]:
     command1 = GetUserAuthCommand(token)
@@ -61,6 +61,9 @@ async def update_review_views(
     command2 = GetReviewCommand(oid)
     use_case2: GetReviewUseCase = container.resolve(GetReviewUseCase)
     review = await use_case2.execute(command2)
+
+    if user_auth.oid != review.author_id:
+        raise ValueError("Invalide user.")
 
     command3 = UpdateReviewCommand(
         review=review_in.to_entity(
@@ -78,12 +81,22 @@ async def update_review_views(
 
 @router.delete("/{oid}", response_model=ApiResponse[ReviewOutSchema])
 async def delete_review_views(
-    oid: str, container: punq.Container = Depends(get_container)
+    oid: str,
+    token: str = Header(alias="Auth-Token"),
+    container: punq.Container = Depends(get_container),
 ) -> ApiResponse[ReviewOutSchema]:
-    command = DeleteReviewCommand(oid)
-    use_case: DeleteReviewUseCase = container.resolve(DeleteReviewUseCase)
-    review = await use_case.execute(command)
-    return ApiResponse(data=ReviewOutSchema.from_entity(review))
+    command1 = GetUserAuthCommand(token)
+    use_case1: GetUserAuthUseCase = container.resolve(GetUserAuthUseCase)
+    user_auth = await use_case1.execute(command1)
+    command2 = GetReviewCommand(oid)
+    use_case: GetReviewUseCase = container.resolve(GetReviewUseCase)
+    review = await use_case.execute(command2)
+    if user_auth.oid != review.author_id:
+        raise ValueError("Invalude user.")
+    command3 = DeleteReviewCommand(oid)
+    use_case3: DeleteReviewUseCase = container.resolve(DeleteReviewUseCase)
+    deleted_review = await use_case3.execute(command3)
+    return ApiResponse(data=ReviewOutSchema.from_entity(deleted_review))
 
 
 @router.get("/{oid}", response_model=ApiResponse[ReviewOutSchema])

@@ -5,6 +5,7 @@ from src.domain.user_auth.commands import (
     DeleteUserAuthCommand,
     GetUserAuthCommand,
     LoginUserAuthCommand,
+    UpdateUserAuthCommand,
 )
 from src.domain.user_auth.entities import UserAuth
 from src.domain.user_auth.services import (
@@ -42,6 +43,14 @@ class LoginUserAuthUseCase:
         token = self.login_service.active_and_generate_token(user)
         await self.user_auth_service.update(user)
         return token
+
+
+@dataclass(frozen=True)
+class UpdateUserAuthUseCase:
+    user_auth_service: IUserAuthService
+
+    async def execute(self, command: UpdateUserAuthCommand) -> UserAuth:
+        return await self.user_auth_service.update(user=command.user)
 
 
 @dataclass(frozen=True)

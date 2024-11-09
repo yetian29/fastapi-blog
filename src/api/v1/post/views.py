@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 
 import punq
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Header
 
 from src.api.v1.post.schemas import PostInSchema, PostOutSchema
 from src.api.v1.schemas import ApiResponse, ListPaginatedResponse, PaginationOutSchema
@@ -25,45 +25,74 @@ from src.domain.post.use_case import (
     GetPostUseCase,
     UpdatePostUseCase,
 )
+from src.domain.user_auth.commands import GetUserAuthCommand
+from src.domain.user_auth.use_case import GetUserAuthUseCase
 
 router = APIRouter()
 
 
 @router.post("", response_model=ApiResponse[PostOutSchema])
 async def create_post_views(
-    post_in: PostInSchema, container: punq.Container = Depends(get_container)
+    post_in: PostInSchema,
+    token: str = Header(alias="Auth-Token"),
+    container: punq.Container = Depends(get_container),
 ) -> ApiResponse[PostOutSchema]:
-    command = CreatePostCommand(post=post_in.to_entity())
-    use_case: CreatePostUseCase = container.resolve(CreatePostUseCase)
-    post = await use_case.execute(command)
+    command1 = GetUserAuthCommand(token)
+    use_case1: GetUserAuthUseCase = container.resolve(GetUserAuthUseCase)
+    user_auth = await use_case1.execute(command1)
+    command2 = CreatePostCommand(post=post_in.to_entity(author_id=user_auth.oid))
+    use_case2: CreatePostUseCase = container.resolve(CreatePostUseCase)
+    post = await use_case2.execute(command2)
     return ApiResponse(data=PostOutSchema.from_entity(post))
 
 
 @router.put("/{oid}", response_model=ApiResponse[PostOutSchema])
 async def update_post_views(
-    oid: str, post_in: PostInSchema, container: punq.Container = Depends(get_container)
+    oid: str,
+    post_in: PostInSchema,
+    token: str = Header(alias="Auth-Token"),
+    container: punq.Container = Depends(get_container),
 ) -> ApiResponse[PostOutSchema]:
-    command1 = GetPostCommand(oid)
-    use_case1: GetPostUseCase = container.resolve(GetPostUseCase)
-    post = await use_case1.execute(command1)
-    command2 = UpdatePostCommand(
+    command1 = GetUserAuthCommand(token)
+    use_case1: GetUserAuthUseCase = container.resolve(GetUserAuthUseCase)
+    user_auth = await use_case1.execute(command1)
+
+    command2 = GetPostCommand(oid)
+    use_case2: GetPostUseCase = container.resolve(GetPostUseCase)
+    post = await use_case2.execute(command2)
+    if user_auth.oid != post.author_id:
+        raise ValueError("Invalid user.")
+    command3 = UpdatePostCommand(
         post=post_in.to_entity(
-            oid=oid, created_at=post.created_at, updated_at=datetime.now()
+            oid=oid,
+            author_id=user_auth.oid,
+            created_at=post.created_at,
+            updated_at=datetime.now(),
         )
     )
-    use_case2: UpdatePostUseCase = container.resolve(UpdatePostUseCase)
-    updated_post = await use_case2.execute(command2)
+    use_case3: UpdatePostUseCase = container.resolve(UpdatePostUseCase)
+    updated_post = await use_case3.execute(command3)
     return ApiResponse(data=PostOutSchema.from_entity(updated_post))
 
 
 @router.delete("/{oid}", response_model=ApiResponse[PostOutSchema])
 async def delete_post_views(
-    oid: str, container: punq.Container = Depends(get_container)
+    oid: str,
+    token: str = Header(alias="Auth-Token"),
+    container: punq.Container = Depends(get_container),
 ) -> ApiResponse[PostOutSchema]:
-    command = DeletePostCommand(oid)
-    use_case: DeletePostUseCase = container.resolve(DeletePostUseCase)
-    post = await use_case.execute(command)
-    return ApiResponse(data=PostOutSchema.from_entity(post))
+    command1 = GetUserAuthCommand(token)
+    use_case1: GetUserAuthUseCase = container.resolve(GetUserAuthUseCase)
+    user_auth = await use_case1.execute(command1)
+    command2 = GetPostCommand(oid)
+    use_case2: GetPostUseCase = container.resolve(GetPostUseCase)
+    post = await use_case2.execute(command2)
+    if user_auth.oid != post.author_id:
+        raise ValueError("Invalid user.")
+    command3 = DeletePostCommand(oid)
+    use_case3: DeletePostUseCase = container.resolve(DeletePostUseCase)
+    deleted_post = await use_case3.execute(command3)
+    return ApiResponse(data=PostOutSchema.from_entity(deleted_post))
 
 
 @router.get("/{oid}", response_model=ApiResponse[PostOutSchema])

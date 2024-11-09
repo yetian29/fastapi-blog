@@ -8,6 +8,7 @@ from src.domain.base.entities import BaseEntity
 class Post(BaseEntity):
     title: str = ""
     content: str = ""
+    author_id: str = ""
 
 
 PostSortFieldsEnum = Enum(

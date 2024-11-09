@@ -17,6 +17,11 @@ class LoginUserAuthCommand:
 
 
 @dataclass(frozen=True)
+class UpdateUserAuthCommand:
+    user: UserAuth
+
+
+@dataclass(frozen=True)
 class DeleteUserAuthCommand:
     oid: str
 

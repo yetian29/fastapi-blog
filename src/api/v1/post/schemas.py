@@ -37,6 +37,7 @@ class PostOutSchema(BaseModel):
     oid: str
     title: str
     content: str
+    author_id: str
     created_at: datetime
     updated_at: datetime
 
@@ -46,6 +47,7 @@ class PostOutSchema(BaseModel):
             oid=entity.oid,
             title=entity.title,
             content=entity.content,
+            author_id=entity.author_id,
             created_at=entity.created_at,
             updated_at=entity.updated_at,
         )

@@ -12,6 +12,7 @@ class PostDto(BaseDto):
     oid: Optional[str]
     title: str
     content: str
+    author_id: str
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
 
@@ -30,6 +31,7 @@ class PostDto(BaseDto):
             oid=data.get("oid"),
             title=data.get("title"),
             content=data.get("content"),
+            author_id=data.get("author_id"),
             created_at=data.get("created_at"),
             updated_at=data.get("updated_at"),
         )
@@ -40,6 +42,7 @@ class PostDto(BaseDto):
             oid=entity.oid,
             title=entity.title,
             content=entity.content,
+            author_id=entity.author_id,
             created_at=entity.created_at,
             updated_at=entity.updated_at,
         )
@@ -49,6 +52,7 @@ class PostDto(BaseDto):
             oid=self.oid,
             title=self.title,
             content=self.content,
+            author_id=self.author_id,
             created_at=self.created_at,
             updated_at=self.updated_at,
         )

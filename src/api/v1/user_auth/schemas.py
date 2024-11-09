@@ -64,21 +64,28 @@ class LoginOutSchema(BaseModel):
     token: str
 
 
-class DeleteOutSchema(BaseModel):
+class UserAuthInSchema(BaseValidate):
+    def to_entity(self, **kwargs) -> UserAuth:
+        return UserAuth(phone_number=self.phone_number, email=self.email)
+
+
+class UserAuthOutSchema(BaseModel):
     oid: str
     phone_number: Optional[str]
     email: Optional[str]
     token: str
+    is_active: bool
     created_at: datetime
     updated_at: datetime
 
     @staticmethod
-    def from_entity(entity: UserAuth) -> "DeleteOutSchema":
-        return DeleteOutSchema(
+    def from_entity(entity: UserAuth) -> "UserAuthOutSchema":
+        return UserAuthOutSchema(
             oid=entity.oid,
             phone_number=entity.phone_number,
             email=entity.email,
             token=entity.token,
+            is_active=entity.is_active,
             created_at=entity.created_at,
             updated_at=entity.updated_at,
         )
