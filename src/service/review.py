@@ -38,7 +38,7 @@ class ReviewService(IReviewService):
     async def get_review_list_by_post_id(
         self, post_id: str, sort_field: str, sort_order: int, limit: int, offset: int
     ) -> list[Review]:
-        review_iter = await self.repository.get_review_list_by_post_id(
+        review_iter = self.repository.get_review_list_by_post_id(
             post_id, sort_field, sort_order, limit, offset
         )
         if not review_iter:

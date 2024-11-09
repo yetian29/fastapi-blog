@@ -34,7 +34,7 @@ class IReviewRepository(ABC):
         pass
 
     @abstractmethod
-    async def find_many(
+    async def get_review_list_by_post_id(
         self,
         post_id: str,
         sort_field: str,
@@ -70,7 +70,7 @@ class MongoReviewRepository(IReviewRepository):
     async def delete(self, oid: str) -> None:
         await self.collection.delete_one({"oid": oid})
 
-    async def find_many(
+    async def get_review_list_by_post_id(
         self,
         post_id: str,
         sort_field: str,
@@ -79,7 +79,7 @@ class MongoReviewRepository(IReviewRepository):
         offset: int,
     ) -> Optional[AsyncIterable[ReviewDto]]:
         cursor = (
-            self.collection.find(post_id)
+            self.collection.find({"post_id": post_id})
             .sort(sort_field, sort_order)
             .limit(limit)
             .skip(offset)
@@ -88,5 +88,4 @@ class MongoReviewRepository(IReviewRepository):
             yield ReviewDto.load(doc)
 
     async def count_many(self, post_id: str) -> Optional[int]:
-        query = await self.collection.find(post_id)
-        return await self.collection.count_documents(query)
+        return await self.collection.count_documents({"post_id": post_id})

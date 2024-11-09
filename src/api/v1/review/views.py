@@ -97,13 +97,13 @@ async def get_review_views(
 
 
 def get_sort(
-    sort_field: str = ReviewSortFieldsEnum.name,
+    sort_field: ReviewSortFieldsEnum = ReviewSortFieldsEnum.oid,  # type: ignore
     sort_order: SortOrderEnum = SortOrderEnum.asc,
 ) -> SortQuery:
-    return SortQuery(sort_field=sort_field.value, sort_order=sort_order)
+    return SortQuery(sort_field.name, sort_order)
 
 
-def get_pagination(page: int = 0, limit=20) -> PaginationQuery:
+def get_pagination(page: int = 0, limit: int = 20) -> PaginationQuery:
     return PaginationQuery(page, limit)
 
 
