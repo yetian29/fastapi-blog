@@ -14,6 +14,7 @@ class DummyPostService(IPostService):
 
     async def create(self, post: Post) -> Post:
         post.oid = str(uuid4())
+        post.author_id = str(uuid4())
         post.created_at = datetime.now()
         post.updated_at = datetime.now()
         return post

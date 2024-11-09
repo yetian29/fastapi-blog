@@ -41,7 +41,7 @@ class GetPostUseCase:
     service: IPostService
 
     async def execute(self, command: GetPostCommand) -> Post:
-        return await self.service.get_by_id(oid=command.oid)
+        return await self.service.get_by_oid(oid=command.oid)
 
 
 @dataclass(frozen=True)

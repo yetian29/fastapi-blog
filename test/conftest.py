@@ -3,6 +3,7 @@ import pytest
 
 from src.core.config.container import get_container
 from src.domain.post.services import IPostService
+from src.domain.review.service import IReviewService
 from src.domain.user_auth.services import (
     ICodeService,
     ILoginService,
@@ -10,6 +11,7 @@ from src.domain.user_auth.services import (
     IUserAuthService,
 )
 from test.mock.service.post import DummyPostService
+from test.mock.service.review import DummyReviewService
 from test.mock.service.user_auth import (
     DummyCodeService,
     DummyLoginService,
@@ -22,6 +24,8 @@ from test.mock.service.user_auth import (
 def mock_test_container() -> punq.Container:
     container = get_container()
 
+    # Review
+    container.register(IReviewService, DummyReviewService)
     # User Auth
     container.register(ICodeService, DummyCodeService, scope=punq.Scope.singleton)
     container.register(ISendService, DummySendService)

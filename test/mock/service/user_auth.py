@@ -72,6 +72,9 @@ class DummyUserAuthService(IUserAuthService):
             return UserAuthFactory.build(phone_number=phone_number)
         return UserAuthFactory.build(email=email)
 
+    async def get_by_token(self, token: str) -> UserAuth:
+        return UserAuthFactory.build(token=token)
+
     async def create(self, user: UserAuth) -> UserAuth:
         user.oid = str(uuid4())
         user.created_at = datetime.now()
