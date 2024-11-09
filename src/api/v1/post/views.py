@@ -1,4 +1,3 @@
-import datetime
 from typing import Optional
 
 import punq
@@ -43,9 +42,7 @@ async def create_post_views(
 async def update_post_views(
     oid: str, post_in: PostInSchema, container: punq.Container = Depends(get_container)
 ) -> ApiResponse[PostOutSchema]:
-    command = UpdatePostCommand(
-        post=post_in.to_entity(oid=oid, updated_at=datetime.now())
-    )
+    command = UpdatePostCommand(post=post_in.to_entity(oid=oid))
     use_case: UpdatePostUseCase = container.resolve(UpdatePostUseCase)
     post = await use_case.execute(command)
     return ApiResponse(data=PostOutSchema.from_entity(post))

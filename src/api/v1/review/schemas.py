@@ -42,6 +42,7 @@ class ReviewOutSchema(BaseModel):
     created_at: datetime
     updated_at: datetime
 
+    @staticmethod
     def from_entity(entity: Review) -> "ReviewOutSchema":
         return ReviewOutSchema(
             oid=entity.oid,
