@@ -18,7 +18,7 @@ class IReviewRepository(ABC):
         return self.database.connection.get_collection(self.collection_name)
 
     @abstractmethod
-    async def get_by_id(self, oid: str) -> Optional[ReviewDto]:
+    async def get_by_oid(self, oid: str) -> Optional[ReviewDto]:
         pass
 
     @abstractmethod
@@ -50,7 +50,7 @@ class IReviewRepository(ABC):
 
 
 class MongoReviewRepository(IReviewRepository):
-    async def get_by_id(self, oid: str) -> Optional[ReviewDto]:
+    async def get_by_oid(self, oid: str) -> Optional[ReviewDto]:
         doc = await self.collection.find_one({"oid": oid})
         return ReviewDto.load(doc)
 

@@ -18,7 +18,7 @@ class IPostRepository(ABC):
         return self.database.connection.get_collection(self.collection_name)
 
     @abstractmethod
-    async def get_by_id(self, oid: str) -> Optional[PostDto]:
+    async def get_by_oid(self, oid: str) -> Optional[PostDto]:
         pass
 
     @abstractmethod
@@ -50,7 +50,7 @@ class IPostRepository(ABC):
 
 
 class MongoPostRepository(IPostRepository):
-    async def get_by_id(self, oid: str) -> Optional[PostDto]:
+    async def get_by_oid(self, oid: str) -> Optional[PostDto]:
         doc = await self.collection.find_one({"oid": oid})
         return PostDto.load(doc)
 

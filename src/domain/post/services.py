@@ -6,7 +6,7 @@ from src.domain.post.entities import Post
 
 class IPostService(ABC):
     @abstractmethod
-    async def get_by_id(self, oid: str) -> Post:
+    async def get_by_oid(self, oid: str) -> Post:
         pass
 
     @abstractmethod

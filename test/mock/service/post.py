@@ -1,6 +1,6 @@
 import random
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 from uuid import uuid4
 
 from src.domain.post.entities import Post
@@ -9,7 +9,7 @@ from test.mock.factory.post import PostFactory
 
 
 class DummyPostService(IPostService):
-    async def get_by_id(self, oid: str) -> Post:
+    async def get_by_oid(self, oid: str) -> Post:
         return PostFactory.build(oid=oid)
 
     async def create(self, post: Post) -> Post:
@@ -31,8 +31,8 @@ class DummyPostService(IPostService):
         limit: int,
         offset: int,
         search: Optional[str] = None,
-    ) -> List[Post] | None:
+    ) -> list[Post]:
         return [PostFactory.build() for _ in range(random.randint(0, limit))]
 
-    async def count_many(self, search: Optional[str] = None) -> Optional[int]:
+    async def count_many(self, search: Optional[str] = None) -> int:
         return random.randint(0, 1000)

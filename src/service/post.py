@@ -13,8 +13,8 @@ from src.service.exc import PostNotFoundException, PostsNotFoundException
 class PostService(IPostService):
     repository: IPostRepository
 
-    async def get_by_id(self, oid: str) -> Post:
-        dto = await self.repository.get_by_id(oid)
+    async def get_by_oid(self, oid: str) -> Post:
+        dto = await self.repository.get_by_oid(oid)
         if not dto:
             fail(PostNotFoundException)
         return dto.to_entity()
