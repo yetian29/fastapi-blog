@@ -55,8 +55,8 @@ class UserProfileOutSchema(BaseModel):
             oid=entity.oid,
             user_name=entity.user_name,
             date_of_birth=entity.date_of_birth,
-            phone_number=entity.user.phone_number,
-            email=entity.user.email,
+            phone_number=entity.user.get("phone_number"),
+            email=entity.user.get("email"),
             created_at=entity.created_at,
             updated_at=entity.updated_at,
         )

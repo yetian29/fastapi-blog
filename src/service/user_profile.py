@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from src.domain.user_profile.entities import UserProfile
 from src.domain.user_profile.service import IUserProfileService
 from src.helper.exc import fail
+from src.infrastructure.dto.user_profile import UserProfileDto
 from src.infrastructure.repositories.user_profile import IUserProfileRepository
 from src.service.exc import UserProfileIsNotFoundException
 
@@ -18,11 +19,13 @@ class UserProfileService(IUserProfileService):
         return dto.to_entity()
 
     async def create(self, user_profile: UserProfile) -> UserProfile:
-        dto = await self.repository.create(user_profile)
+        dto = UserProfileDto.from_entity(user_profile)
+        dto = await self.repository.create(dto)
         return dto.to_entity()
 
     async def update(self, user_profile: UserProfile) -> UserProfile:
-        dto = await self.repository.update(user_profile)
+        dto = UserProfileDto.from_entity(user_profile)
+        dto = await self.repository.update(dto)
         if not dto:
             fail(UserProfileIsNotFoundException)
         return dto.to_entity()

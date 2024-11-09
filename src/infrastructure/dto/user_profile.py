@@ -28,17 +28,23 @@ class UserProfileDto(BaseDto):
         if not data:
             return None
         return UserProfileDto(
+            oid=data.get("oid"),
             user_name=data.get("user_name"),
             date_of_birth=data.get("date_of_birth"),
             user=data.get("user"),
+            created_at=data.get("created_at"),
+            updated_at=data.get("updated_at"),
         )
 
     @staticmethod
     def from_entity(entity: UserProfile) -> "UserProfileDto":
         return UserProfileDto(
+            oid=entity.oid,
             user_name=entity.user_name,
             date_of_birth=entity.date_of_birth,
             user=entity.user,
+            created_at=entity.created_at,
+            updated_at=entity.updated_at,
         )
 
     def to_entity(self) -> UserProfile:

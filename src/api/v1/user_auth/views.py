@@ -60,9 +60,8 @@ async def login_user_auth_views(
     return ApiResponse(data=LoginOutSchema(token=token))
 
 
-@router.put("/{oid}", response_model=ApiResponse[UserAuthOutSchema])
+@router.put("", response_model=ApiResponse[UserAuthOutSchema])
 async def update_user_auth_views(
-    oid: str,
     user_auth_in: UserAuthInSchema,
     token: str = Header(alias="Auth-Token"),
     container: punq.Container = Depends(get_container),
@@ -90,7 +89,7 @@ async def update_user_auth_views(
 
     command2 = UpdateUserAuthCommand(
         user=user_auth_in.to_entity(
-            oid=oid,
+            oid=user_auth.oid,
             phone_number=user_auth.phone_number,
             email=user_auth.email,
             is_active=user_auth.is_active,
@@ -99,14 +98,20 @@ async def update_user_auth_views(
         )
     )
     use_case2: UpdateUserAuthUseCase = container.resolve(UpdateUserAuthUseCase)
-    await use_case2.execute(command2)
+    updated_user_auth = await use_case2.execute(command2)
+    return ApiResponse(data=UserAuthOutSchema.from_entity(updated_user_auth))
 
 
 @router.delete("/{oid}", response_model=ApiResponse[UserAuthOutSchema])
 async def delete_user_auth_views(
-    oid: str, container: punq.Container = Depends(get_container)
+    oid: str,
+    container: punq.Container = Depends(get_container),
+    token: str = Header(alias="Auth-Token"),
 ) -> ApiResponse[UserAuthOutSchema]:
-    command = DeleteUserAuthCommand(oid)
-    use_case: DeleteUserAuthUseCase = container.resolve(DeleteUserAuthUseCase)
-    user_auth = await use_case.execute(command)
+    command1 = GetUserAuthCommand(token)
+    use_case1: GetUserAuthUseCase = container.resolve(GetUserAuthUseCase)
+    await use_case1.execute(command1)
+    command2 = DeleteUserAuthCommand(oid)
+    use_case2: DeleteUserAuthUseCase = container.resolve(DeleteUserAuthUseCase)
+    user_auth = await use_case2.execute(command2)
     return ApiResponse(data=UserAuthOutSchema.from_entity(user_auth))
