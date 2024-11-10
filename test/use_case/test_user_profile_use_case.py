@@ -41,5 +41,5 @@ async def test_update_user_profile_use_case(mock_update_user_profile_use_case):
 
 async def test_get_user_profile_use_case(mock_get_user_profile_use_case):
     command = GetUserProfileCommandFactory.build()
-    user_profile = await mock_update_user_profile_use_case.execute(command)
+    user_profile = await mock_get_user_profile_use_case.execute(command)
     assert user_profile.oid == command.oid
