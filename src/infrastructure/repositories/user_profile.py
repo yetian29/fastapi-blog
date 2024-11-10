@@ -11,7 +11,7 @@ from src.infrastructure.dto.user_profile import UserProfileDto
 @dataclass(frozen=True)
 class IUserProfileRepository(ABC):
     database: Database
-    collection_name: str = "profile"
+    collection_name: str = "user_profile"
 
     @property
     def collection(self):
