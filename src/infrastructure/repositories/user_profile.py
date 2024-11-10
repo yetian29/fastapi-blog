@@ -22,11 +22,11 @@ class IUserProfileRepository(ABC):
         pass
 
     @abstractmethod
-    async def create(self, profile: UserProfileDto) -> UserProfileDto:
+    async def create(self, user_profile: UserProfileDto) -> UserProfileDto:
         pass
 
     @abstractmethod
-    async def update(self, profile: UserProfileDto) -> Optional[UserProfileDto]:
+    async def update(self, user_profile: UserProfileDto) -> Optional[UserProfileDto]:
         pass
 
 
@@ -35,15 +35,15 @@ class MongoUserProfileRepository(IUserProfileRepository):
         doc = await self.collection.find_one({"oid": oid})
         return UserProfileDto.load(doc)
 
-    async def create(self, profile: UserProfileDto) -> UserProfileDto:
-        doc = await self.collection.insert_one(profile.dump())
+    async def create(self, user_profile: UserProfileDto) -> UserProfileDto:
+        doc = await self.collection.insert_one(user_profile.dump())
         doc = await self.collection.find_one({"_id": doc.inserted_id})
         return UserProfileDto.load(doc)
 
-    async def update(self, profile: UserProfileDto) -> Optional[UserProfileDto]:
+    async def update(self, user_profile: UserProfileDto) -> Optional[UserProfileDto]:
         doc = await self.collection.find_one_and_update(
-            {"oid": profile.oid},
-            {"$set": profile.dump()},
+            {"oid": user_profile.oid},
+            {"$set": user_profile.dump()},
             return_document=ReturnDocument.AFTER,
         )
         return UserProfileDto.load(doc)
