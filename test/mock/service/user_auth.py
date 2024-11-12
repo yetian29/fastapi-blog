@@ -11,7 +11,7 @@ from src.domain.user_auth.services import (
     ISendService,
     IUserAuthService,
 )
-from src.helper.exc import fail
+from src.helper.errors import fail
 from src.service.exc import (
     CodeHasExpiredException,
     CodeIsNotFoundException,

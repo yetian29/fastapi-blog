@@ -1,11 +1,14 @@
 from dataclasses import dataclass
 
 from src.domain.review.entitties import Review
+from src.domain.review.errors import (
+    ReviewIsNotFoundException,
+    ReviewsIsNotFoundException,
+)
 from src.domain.review.service import IReviewService
-from src.helper.exc import fail
+from src.helper.errors import fail
 from src.infrastructure.dto.review import ReviewDto
 from src.infrastructure.repositories.review import IReviewRepository
-from src.service.exc import ReviewIsNotFoundException, ReviewsIsNotFoundException
 
 
 @dataclass(frozen=True)

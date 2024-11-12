@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 
 from src.domain.user_profile.entities import UserProfile
+from src.domain.user_profile.errors import UserProfileIsNotFoundException
 from src.domain.user_profile.service import IUserProfileService
-from src.helper.exc import fail
+from src.helper.errors import fail
 from src.infrastructure.dto.user_profile import UserProfileDto
 from src.infrastructure.repositories.user_profile import IUserProfileRepository
-from src.service.exc import UserProfileIsNotFoundException
 
 
 @dataclass(frozen=True)

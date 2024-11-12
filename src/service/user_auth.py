@@ -8,21 +8,21 @@ from uuid import uuid4
 from fastapi_cache import FastAPICache
 
 from src.domain.user_auth.entities import UserAuth
+from src.domain.user_auth.errors import (
+    CodeHasExpiredException,
+    CodeIsNotFoundException,
+    CodesAreNotEqualException,
+    UserAuthIsNotFoundException,
+)
 from src.domain.user_auth.services import (
     ICodeService,
     ILoginService,
     ISendService,
     IUserAuthService,
 )
-from src.helper.exc import fail
+from src.helper.errors import fail
 from src.infrastructure.dto.user_auth import UserAuthDto
 from src.infrastructure.repositories.user_auth import IUserAuthRepository
-from src.service.exc import (
-    CodeHasExpiredException,
-    CodeIsNotFoundException,
-    CodesAreNotEqualException,
-    UserAuthIsNotFoundException,
-)
 
 
 @dataclass(frozen=True)
