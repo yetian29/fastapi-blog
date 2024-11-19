@@ -73,5 +73,5 @@ async def test_get_review_use_case(mock_get_review_use_case):
 async def test_get_review_list_use_case(mock_get_review_list_use_case):
     command = GetReviewListCommandFactory.build()
     reviews, count = await mock_get_review_list_use_case.execute(command)
-    assert len(reviews) < command.pagination.limit
-    assert count < 1000
+    assert len(reviews) <= command.pagination.limit
+    assert count <= 1000

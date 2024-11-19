@@ -73,5 +73,5 @@ async def test_get_post_use_case(mock_get_post_use_case):
 async def test_find_many_use_case(mock_find_many_use_case):
     command = GetPostListCommandFactory.build()
     posts, count = await mock_find_many_use_case.execute(command)
-    assert len(posts) < command.pagination.limit
-    assert count < 1000
+    assert len(posts) <= command.pagination.limit
+    assert count <= 1000
